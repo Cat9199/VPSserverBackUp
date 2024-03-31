@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+from flask import Flask
 import subprocess
 from datetime import datetime
 import time
 import os
+
+app = Flask(__name__)
 
 def git_auto_commit():
     # Change directory to your Git repository
@@ -24,6 +27,10 @@ def git_auto_commit():
     # Write log entry
     with open('git_auto_commit.log', 'a') as log_file:
         log_file.write(f'{timestamp}: Git auto commit executed\n')
+
+@app.route('/')
+def index():
+    return 'Git auto commit script is running in the background.'
 
 if __name__ == "__main__":
     while True:
