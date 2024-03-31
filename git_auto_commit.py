@@ -35,4 +35,5 @@ def index():
 if __name__ == "__main__":
     while True:
         git_auto_commit()
-        time.sleep(60)  # Sleep for 60 seconds (1 minute)
+        # Sleep for 2 hours (2 * 60 * 60 seconds)
+        time.sleep(2 * 60 * 60)
