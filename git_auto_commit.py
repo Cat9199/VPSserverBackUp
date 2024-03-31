@@ -3,7 +3,7 @@
 import subprocess
 from datetime import datetime
 import time
-import os  # Add this import statement
+import os
 
 def git_auto_commit():
     # Change directory to your Git repository
@@ -20,6 +20,10 @@ def git_auto_commit():
 
     # Push changes to remote repository
     subprocess.run(['git', 'push'])
+
+    # Write log entry
+    with open('git_auto_commit.log', 'a') as log_file:
+        log_file.write(f'{timestamp}: Git auto commit executed\n')
 
 if __name__ == "__main__":
     while True:
