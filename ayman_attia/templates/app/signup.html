@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عمل حساب جديد</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/signup.css')}}">
+    <!-- Hotjar Tracking Code for AhmedMalikAcadmy -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:3911607,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <style>
+.form-login .next-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-login #prev2,
+.form-login #next2 {
+    flex: 1;
+    padding: 15px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-login #prev2 {
+    background-color: var(--red-color); /* Background color for the "Previous" button */
+    color: white; /* Text color for the "Previous" button */
+}
+
+.form-login #next2 {
+    background: var(--grid-blue, linear-gradient(282deg, #1031D0 0%, #2E6FF4 50%, #89BAF8 100%)); /* Background color for the "Next" button */
+    color: var(--neutral-9, #EEF4FA); /* Text color for the "Next" button */
+}
+
+.form-login #next2:hover {
+    opacity: 0.8; /* Opacity on hover for the "Next" button */
+}
+
+.form-login #prev2:hover {
+    opacity: 0.8; /* Opacity on hover for the "Previous" button */
+}
+
+    </style>
+</head>
+
+<body dir="rtl">
+
+    <header>
+        <nav>
+            <h3>Mr Ayman test</h3>
+            <img style="width: 40px; height: 40px" src="{{ url_for('static',filename='img/logo.png') }}" />
+        </nav>
+    </header>
+    <form id="signupForm" action="/signup" method="post">
+        <section class="login-section">
+
+            <div class="login-container">
+                <h2>عمل حساب جديد</h2>
+                <div class="content" id="screen1">
+                    <a href="/logingoogle" class="google-login">
+                        <h3>تسجيل الدخول باستخدام جوجل</h3>
+                        <div class="icon">
+                            <img src="{{ url_for('static',filename='img/google-icon.svg') }}" alt="">
+                        </div>
+                    </a>
+                    <div class="line">
+                        <span>او ادخل لحسابك باستخدام</span>
+                    </div>
+                    <p id="message" style="color: red;"></p>
+                    <div class="form-login">
+                        <input type="text" name="username" id="username" placeholder="اكتب اسمك هنا (مثال) : محمد هاني احمد" required/>
+                        <input type="email" name="email" id="email" placeholder="اكتب ايميلك هنا: xxxx@gmail.com" required/>
+                        <input type="password" name="password" id="password1" placeholder="اكتب الباسورد هنا: xxxxxx" required/>
+                        <input type="password" name="password" id="password2" placeholder="اكتب الباسورد تاني هنا: xxxxxx" required/>
+                        <button type="button" id="next1" class="next">التالي</button>
+                    </div>
+                    <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
+                </div>
+                <div class="content" id="screen2" style="display: none;">
+                    <div class="line">
+                        <span>اختار سنتك الدراسية</span>
+                    </div>
+                    <div class="form-login">
+                        <input type="text" name="section" value="1sec" id="section" style="display: none;">
+                        <div class="elsana">
+                            <button class="elsana-button elsana-button-selected" type="button" onclick="selectElsana(this, 1)">1ث</button>
+                            <button class="elsana-button" type="button" onclick="selectElsana(this, 2)">2ث</button>
+                            <button class="elsana-button" type="button" onclick="selectElsana(this, 3)">3ث</button>
+                        </div>
+                        <div class="taqasous" id="taqasous-2">
+                            <button class="taqasous-button" type="button" value="2sei" onclick="selectTaqasous(this);setval('2sic');">علمي</button>
+                            <button class="taqasous-button" type="button" value="2art" onclick="selectTaqasous(this);setval('2art')">أدبي</button>
+                        </div>
+                        <div class="taqasous" id="taqasous-3">
+                            <button class="taqasous-button" type="button" value="3math" onclick="selectTaqasous(this);setval('3math')">علمي رياضة</button>
+                            <button class="taqasous-button" type="button" value="3sin" onclick="selectTaqasous(this);setval('3sic')">علمي علوم</button>
+                            <button class="taqasous-button" type="button" value="3art" onclick="selectTaqasous(this);setval('3art')">أدبي</button>
+                        </div>
+                        <div class="form-login next-wrapper">
+                            <button type="button" id="prev2" class="next" onclick="goToPreviousScreen(2)">السابق</button>
+                            <button type="button" id="next2" class="next">التالي</button>
+                        </div>
+                        
+                        
+
+                    </div>
+                    <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
+                </div>
+                <div class="content" id="screen3" style="display: none;">
+                    <div class="form-login">
+                        <select name="city" id="city" required>
+                            <option value="1">القاهرة</option>
+                            <!-- Add other options here -->
+                        </select>
+                        <select name="gender" id="gender" required>
+                            <option value="boy">ذكر</option>
+                            <option value="girl">انثى</option>
+                        </select>
+                        <input type="date" id="dateInput" name="dateInput" placeholder="تاريخ الميلاد" required>
+                        <input type="text" name="phone" id="phone" placeholder="رقم الهاتف الطالب" required/>
+                        <input type="text" name="phone-parent" id="phone-parent" placeholder="رقم الهاتف ولي الامر" required/>
+                        <button type="submit" class="next">التالي</button>
+                    </div>
+                    <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
+                </div>
+            </div>
+        </section>
+    </form>
+    <script>
+         function goToPreviousScreen(screen) {
+            var currentScreen = document.getElementById("screen" + screen);
+            currentScreen.style.display = "none";
+            var previousScreen = document.getElementById("screen" + (screen - 1));
+            previousScreen.style.display = "block";
+        }
+        function selectElsana(button, elsana) {
+            var buttons = document.querySelectorAll('.elsana-button');
+            buttons.forEach(function(btn) {
+                btn.classList.remove('elsana-button-selected');
+            });
+            button.classList.add('elsana-button-selected');
+            var taqasous2 = document.getElementById("taqasous-2");
+            var taqasous3 = document.getElementById("taqasous-3");
+            if (elsana == 2) {
+                taqasous2.style.display = "flex";
+                taqasous3.style.display = "none";
+            } else if (elsana == 3) {
+                taqasous2.style.display = "none";
+                taqasous3.style.display = "flex";
+            } else {
+                taqasous2.style.display = "none";
+                taqasous3.style.display = "none";
+            }
+        }
+
+        function selectTaqasous(button, taqasous) {
+            var buttons = document.querySelectorAll('.taqasous-button');
+            buttons.forEach(function(btn) {
+                btn.classList.remove('taqasous-button-selected');
+            });
+            button.classList.add('taqasous-button-selected');
+        }
+
+        document.getElementById("next1").addEventListener("click", function() {
+            if (validateForm(1)) {
+                document.getElementById("screen1").style.display = "none";
+                document.getElementById("screen2").style.display = "block";
+                document.getElementById("screen3").style.display = "none";
+            }
+        });
+
+        document.getElementById("next2").addEventListener("click", function() {
+            if (validateForm(2)) {
+                document.getElementById("screen1").style.display = "none";
+                document.getElementById("screen2").style.display = "none";
+                document.getElementById("screen3").style.display = "block";
+            }
+        });
+
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            if (!validateForm(3)) {
+                event.preventDefault();
+            }
+        });
+
+        function validateForm(screen) {
+            var isValid = true;
+
+            if (screen === 1) {
+                var username = document.getElementById("username").value.trim();
+                var email = document.getElementById("email").value.trim();
+                var password1 = document.getElementById("password1").value.trim();
+                var password2 = document.getElementById("password2").value.trim();
+
+                if (username === "") {
+                    showError("الرجاء إدخال اسم المستخدم", "username");
+                    isValid = false;
+                }
+
+                if (email === "") {
+                    showError("الرجاء إدخال البريد الإلكتروني", "email");
+                    isValid = false;
+                }
+
+                if (password1 === "") {
+                    showError("الرجاء إدخال كلمة المرور", "password1");
+                    isValid = false;
+                }
+
+                if (password2 === "") {
+                    showError("الرجاء تأكيد كلمة المرور", "password2");
+                    isValid = false;
+                }
+
+                if (password1 !== password2) {
+                    showError("كلمات المرور غير متطابقة", "password1");
+                    isValid = false;
+                }
+            } else if (screen === 2) {
+                // Add validation for screen 2 if needed
+            } else if (screen === 3) {
+                var city = document.getElementById("city").value.trim();
+                var gender = document.getElementById("gender").value.trim();
+                var dateInput = document.getElementById("dateInput").value.trim();
+
+                if (city === "") {
+                    showError("الرجاء اختيار المدينة", "city");
+                    isValid = false;
+                }
+
+                if (gender === "") {
+                    showError("الرجاء اختيار الجنس", "gender");
+                    isValid = false;
+                }
+
+                if (dateInput === "") {
+                    showError("الرجاء اختيار تاريخ الميلاد", "dateInput");
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        function showError(message, fieldId) {
+            var messageElement = document.getElementById("message");
+            messageElement.innerText = message;
+            messageElement.style.display = "block";
+            if (fieldId) {
+                document.getElementById(fieldId).focus();
+                document.getElementById(fieldId).style.border = "2px solid #E62836";
+            }
+        }
+    </script>
+</body>
+
+</html>

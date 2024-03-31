@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/dashboard.css') }}">
+</head>
+
+<body dir="rtl">
+    <div style="position: absolute; width: 100%; height: 100%; pointer-events: none;"></div>
+    <header>
+        <nav>
+            <div class="header-info">
+                <div class="account">
+                    <div class="photo">
+                        <img src="{{ user.profile_img }}" />
+                    </div>
+                    <div class="username">
+                        <h5 class="welcome">مساء الخير</h5>
+                        <h5 class="name">{{ user.name }}</h5>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <a class="wallet" href="/wallet">
+                        <img src="{{ url_for('static',filename='/img/icons/solar_wallet-linear.svg')}}" />
+                        <h5>محفظتي</h5>
+                    </a>
+
+                    <a class="notification" href="/notification">
+                        <img src="{{ url_for('static',filename='/img/icons/ph_bell-bold.svg')}}" />
+                        <h5 id="notificationCount">0 </h5>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <div class="sidebar">
+        <a class="sidebar-item selected" href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M26.6668 13.3334C26.6668 12.9798 26.5263 12.6406 26.2763 12.3906C26.0262 12.1405 25.6871 12 25.3334 12C24.9798 12 24.6407 12.1405 24.3906 12.3906C24.1406 12.6406 24.0001 12.9798 24.0001 13.3334H26.6668ZM8.00011 13.3334C8.00011 12.9798 7.85963 12.6406 7.60958 12.3906C7.35953 12.1405 7.0204 12 6.66677 12C6.31315 12 5.97401 12.1405 5.72397 12.3906C5.47392 12.6406 5.33344 12.9798 5.33344 13.3334H8.00011ZM27.0574 16.9427C27.3089 17.1856 27.6457 17.32 27.9953 17.3169C28.3449 17.3139 28.6793 17.1737 28.9265 16.9265C29.1737 16.6793 29.314 16.3448 29.317 15.9952C29.32 15.6456 29.1857 15.3088 28.9428 15.0574L27.0574 16.9427ZM16.0001 4.00004L16.9428 3.05737C16.6927 2.80741 16.3537 2.66699 16.0001 2.66699C15.6466 2.66699 15.3075 2.80741 15.0574 3.05737L16.0001 4.00004ZM3.05744 15.0574C2.93009 15.1804 2.82852 15.3275 2.75864 15.4902C2.68876 15.6528 2.65198 15.8278 2.65044 16.0048C2.6489 16.1819 2.68264 16.3575 2.74968 16.5213C2.81672 16.6852 2.91572 16.834 3.04091 16.9592C3.16611 17.0844 3.31497 17.1834 3.47884 17.2505C3.6427 17.3175 3.81827 17.3512 3.99531 17.3497C4.17235 17.3482 4.34731 17.3114 4.50998 17.2415C4.67265 17.1716 4.81978 17.0701 4.94277 16.9427L3.05744 15.0574ZM9.33344 29.3334H22.6668V26.6667H9.33344V29.3334ZM26.6668 25.3334V13.3334H24.0001V25.3334H26.6668ZM8.00011 25.3334V13.3334H5.33344V25.3334H8.00011ZM28.9428 15.0574L16.9428 3.05737L15.0574 4.94271L27.0574 16.9427L28.9428 15.0574ZM15.0574 3.05737L3.05744 15.0574L4.94277 16.9427L16.9428 4.94271L15.0574 3.05737ZM22.6668 29.3334C23.7276 29.3334 24.7451 28.9119 25.4952 28.1618C26.2453 27.4117 26.6668 26.3942 26.6668 25.3334H24.0001C24.0001 25.687 23.8596 26.0261 23.6096 26.2762C23.3595 26.5262 23.0204 26.6667 22.6668 26.6667V29.3334ZM9.33344 26.6667C8.97982 26.6667 8.64068 26.5262 8.39063 26.2762C8.14058 26.0261 8.00011 25.687 8.00011 25.3334H5.33344C5.33344 26.3942 5.75487 27.4117 6.50501 28.1618C7.25516 28.9119 8.27257 29.3334 9.33344 29.3334V26.6667Z" fill="#262F44"/>
+            </svg>
+            <h5>الرئيسية</h5>
+        </a>
+        <a class="sidebar-item" href="/all-courses">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M21.6145 14.808L12.9825 10.4907C12.7385 10.3686 12.4673 10.3109 12.1947 10.3231C11.9221 10.3354 11.6572 10.4172 11.4251 10.5607C11.193 10.7042 11.0014 10.9046 10.8687 11.143C10.7359 11.3814 10.6663 11.6498 10.6665 11.9227V20.0773C10.6663 20.3502 10.7359 20.6186 10.8687 20.857C11.0014 21.0954 11.193 21.2959 11.4251 21.4394C11.6572 21.5829 11.9221 21.6646 12.1947 21.6769C12.4673 21.6891 12.7385 21.6315 12.9825 21.5093L21.6145 17.192C21.8357 17.0812 22.0217 16.911 22.1516 16.7004C22.2816 16.4899 22.3504 16.2474 22.3504 16C22.3504 15.7526 22.2816 15.5101 22.1516 15.2996C22.0217 15.0891 21.8357 14.9189 21.6145 14.808Z" stroke="#262F44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="#262F44" stroke-width="2"/>
+              </svg>
+            <h5>كورساتي</h5>
+        </a>
+       
+    </div>
+    <main>
+        <div class="content">
+
+
+
+            {% block content%} {% endblock %}
+        </div>
+
+    </main>
+    <script>
+        function pasteText() {
+            var apiUrl = "/api/check_code/";
+
+            var otpValues = document.querySelectorAll('.otp-input');
+            var code = "";
+
+            otpValues.forEach(function(input) {
+                code += input.value;
+            });
+
+            fetch(apiUrl + code)
+                .then(response => response.text()) // Get the response as text
+                .then(data => {
+                    // Log the raw response
+                    console.log('Raw Response:', data);
+
+                    // Try to parse the response as JSON
+                    try {
+                        var jsonData = JSON.parse(data);
+                        console.log('Parsed JSON:', jsonData);
+
+                        // Check if the response matches the specified condition
+                        if (jsonData.message === 'Code is not used' && jsonData.success === true) {
+                            console.log("The message is: " + jsonData.message);
+                            // You can add further actions or UI updates here
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // You can call this function when the "تحقق من الكود" button is clicked
+        document.querySelector('.check').addEventListener('click', pasteText);
+    </script>
+
+
+    <script>
+        function showWallet() {
+
+            let walletInfo = document.getElementById("wallet-info-id");
+            if (walletInfo.style.display == "none" || walletInfo.style.display === "") {
+                walletInfo.style.display = "flex";
+            } else {
+                walletInfo.style.display = "none";
+            }
+        }
+        let userId = "{{ user.id }}";
+        initialNotificationCount = null
+
+        function updateNotification() {
+            fetch(`/api/count_unread_notificashen/${encodeURIComponent(userId)}`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.count !== undefined) {
+                        let notification = document.querySelector(".notification h5");
+                        if (initialNotificationCount === null) {
+                            initialNotificationCount = 0;
+                        } else {
+                            if (initialNotificationCount === 0) {
+                                initialNotificationCount = data.count;
+                            } else if (data.count > initialNotificationCount) {
+                                initialNotificationCount = data.count;
+                                console.log("new notification");
+                                showNotification();
+                                playNotificationSound();
+
+                            }
+                        }
+                        notification.innerHTML = data.count;
+                        console.log(data.count);
+                    } else {
+                        console.error("Unexpected API response format");
+                    }
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+
+        setInterval(updateNotification, 10000);
+
+        function showNotification() {
+            let notification = document.getElementById("notification-card-show");
+            notification.style.left = "20px";
+            setTimeout(function() {
+                notification.style.left = "-300px";
+            }, 3000);
+        }
+
+        function playNotificationSound() {
+            let audio = document.getElementById('notificationSound');
+            audio.play().catch(error => {
+                console.error('Error playing audio:', error);
+            });
+        }
+        async function pasteText() {
+            try {
+                const pastedText = await navigator.clipboard.readText();
+
+                // Distribute pasted text among input fields
+                for (let i = 0; i < pastedText.length && i < 12; i++) {
+                    const inputField = document.querySelector(`.otp-input:nth-child(${i + 1})`);
+                    if (inputField) {
+                        inputField.value = pastedText[i].replace(/\D/g, '');
+                    }
+                }
+            } catch (err) {
+                console.error('Unable to read clipboard text:', err);
+            }
+        }
+
+        function handleInput(index, event) {
+            // Ensure the input value is numeric
+            event.target.value = event.target.value.replace(/\D/g, '');
+
+            // Move to the next input field if available
+            if (event.target.value !== '' && index < 12) {
+                document.querySelector(`.otp-input:nth-child(${index + 1})`).focus();
+            }
+
+            // Move to the previous input field on backspace
+            if (event.inputType === 'deleteContentBackward') {
+                if (index > 1 && event.target.value === '') {
+                    document.querySelector(`.otp-input:nth-child(${index - 1})`).focus();
+                } else if (index === 1 && event.target.value === '') {
+                    document.querySelector(`.otp-input:nth-child(${index})`).focus();
+                }
+            }
+        }
+
+        function handlePaste(index, event) {
+            // Get the pasted text
+            const pastedText = (event.clipboardData || window.clipboardData).getData('text');
+
+            // Distribute pasted text among input fields
+            for (let i = 0; i < pastedText.length && (index + i) <= 12; i++) {
+                const inputField = document.querySelector(`.otp-input:nth-child(${index + i})`);
+                if (inputField) {
+                    inputField.value = pastedText[i].replace(/\D/g, '');
+                }
+            }
+
+        }
+    </script>
+    <script src="{{url_for('static',filename='js/dashboard.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+</body>
+
+</html>

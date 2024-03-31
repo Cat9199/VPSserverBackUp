@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/app/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/app/login.css') }}">
+</head>
+<body dir="rtl">
+    <div class="overlay"></div>
+    <header>
+        <nav>
+            <h3>Mr Ayman Attia</h3>
+            <img style="width: 40px; height: 40px" src="{{ url_for('static',filename='img/logo.png') }}" />
+        </nav>
+    </header>
+    <section class="login-section">
+        <div class="login-container">
+            <h2>سجل الدخول الى حسابك</h2>
+            <div class="content">
+                <a href="/logingoogle" class="google-login">
+                    <h3>تسجيل الدخول باستخدام جوجل</h3>
+                    <div class="icon">
+                        <img src="{{ url_for('static',filename='img/google-icon.svg') }}" alt="">
+                    </div>
+                </a>
+                <div class="line">
+                    <span>او ادخل لحسابك باستخدام</span>
+                </div>
+                {% if error %}
+                <p id="message" style="color: red; display: block;">{{ error }}
+                {% if error == 'كلمة المرور خاطئة' %}
+                <a href="https://wa.me/201093195914?text=Hi,%20I%20am%{{username}}.%20I%20use%20Ahmed%20Malik%20Academy.%20Forgot%20password" target="_blank">تواصل مع الدعم</a>
+                {% endif %}
+            </p>
+                {% endif %}
+                <form action="/login" method="POST" class="form-login">
+                    {% if username %}
+                    <input type="text" name="email" value="{{username}}" placeholder="اكتب ايميلك هنا او رقم التليفون" />
+                    {% else %}
+                    <input type="text" name="email" placeholder=" اكتب ايميلك هنا او رقم التليفون" />
+                    {% endif %}
+                    
+                    <input type="password" name="password" placeholder="اكتب كلمة السر هنا" />
+                    <a href="/forgetpasswored">نسيت كلمة السر؟ <span>دوس هنا</span></a>
+                    <input type="submit" value="تسجيل الدخول" />
+                </form>
+                <a href="/sign_up" class="signin-link">مش عامل حساب في المنصة؟ <span>دوس هنا</span></a>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

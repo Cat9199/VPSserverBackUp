@@ -1,0 +1,49 @@
+{
+      "sites": [
+        {
+            "path": "/root/SiteCode/devStage",
+            "workers": 3,
+            "host": "127.0.0.1",
+            "port": 8000
+          },
+          {
+              "path": "/root/SiteCode/thanawiaonline",
+              "workers": 3,
+              "host": "127.0.0.1",
+              "port": 8001
+          },
+
+            {
+                "path": "/root/SiteCode/eduazhar",
+                "workers": 3,
+                "host": "127.0.0.1",
+                "port": 8002
+            },
+            {
+                "path": "/root/SiteCode/ayman_attia",
+                "workers": 3,
+                "host": "127.0.0.1",
+                "port": 8003
+              },{
+                
+                "path": "/root/SiteCode/Awadoef",
+                "workers": 3,
+                "host": "127.0.0.1",
+                "port": 8004
+
+              },
+              {
+              "path": "/root/SiteCode/WalidElgendy",
+                "workers": 3,
+                "host": "127.0.0.1",
+                "port": 8005
+              },
+              {
+                "path": "/root/SiteCode/ahmed_malek",
+                  "workers": 3,
+                  "host": "127.0.0.1",
+                  "port": 8006
+                }
+      ]
+  }
+  

@@ -1,0 +1,132 @@
+{% extends 'web/dashboard/base.html' %} {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/web/allc.css') }}"><div class="header-dashboard">
+    <h1>كل الكورسات</h1>
+
+    <section class="section-trees">
+        <div class="main-lable">
+            <div class="circle"></div>
+            <h3>التصنيفات</h3>
+        </div>
+
+        <div class="trees">
+            {% if page == 'orif' %}
+            <a class="tree" href="/lets/center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>online</h3>
+            </a>
+            <a class="tree" href="/lets/center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>offline</h3>
+            </a>
+            {% endif %} {% if page == 'center' %} {% if user.academic_year == "1" %}
+            <a class="tree" href="/lets/dep">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>سنتر الماسة</h3>
+            </a>
+            <a class="tree" href="/lets/dep">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>سنتر الشروق</h3>
+            </a>
+            <a class="tree" href="/lets/dep">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>سنتر سونيستا</h3>
+            </a>
+            {% elif user.academic_year == "2" %}
+            <a class="tree" href="/lets/art">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>art section </h3>
+            </a>
+            <a class="tree" href="/lets/dep">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>science section</h3>
+            </a>
+            {% endif %} {% endif %} {%if page == 'dep' %} {% if user.academic_year == "1" %}
+            <a class="tree" href="/category/algebra-1">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>algebra</h3>
+            </a>
+            <a class="tree" href="/category/geometry-1">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>geometry</h3>
+            </a>
+            <a class="tree" href="/category/trig-1">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>trig</h3>
+            </a>
+            <a class="tree" href="/category/revision-1">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>revision</h3>
+            </a>
+
+            {% elif user.academic_year == "2"%}
+            <a class="tree" href="/lets/edu">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>سنتر الشروق</h3>
+            </a>
+            <a class="tree" href="/lets/edu">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>سنتر الماسة</h3>
+            </a>
+
+            {% endif %} {% endif %} {% if page == 'edu' %}
+
+            <a class="tree" href="/lets/puer">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>Pure Mathematics</h3>
+            </a>
+            <a class="tree" href="/lets/Application">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>Application</h3>
+            </a>
+            {% endif %} {% if page == 'puer' %}
+            <a class="tree" href="/category/Trig-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>Trig
+                </h3>
+            </a>
+            <a class="tree" href="/category/Calculus-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>Calculus
+                </h3>
+            </a>
+
+            <a class="tree" href="/category/Algebra-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3> Algebra
+                </h3>
+            </a>
+
+            <a class="tree" href="/category/revision-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>revision</h3>
+            </a>
+
+
+            {% endif %} {% if page == 'Application' %}
+            <a class="tree" href="/category/Probability-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>Probability
+
+                </h3>
+            </a>
+            <a class="tree" href="/category/Dynamic-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>Dynamic</h3>
+            </a>
+            <a class="tree" href="/category/revision-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>revision</h3>
+            </a>
+            {% endif %} {% if page == 'art' %}
+            <a class="tree" href="/lets/puer">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>سنتر الشروق</h3>
+            </a>
+            <a class="tree" href="/lets/puer">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
+                <h3>سنتر الماسة</h3>
+            </a>{%endif%}
+        </div>
+    </section>
+</div>
+{% endblock %}

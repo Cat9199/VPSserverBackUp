@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <!-- Hotjar Tracking Code for eduazhar -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3913561,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نسيت كلمت المرور</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/web/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/web/login.css') }}">
+
+</head>
+
+<body dir="rtl">
+    <div class="overlay"></div>
+    <header>
+        <nav>
+            <h3>ايديو ازهر</h3>
+            <img style="width: 40px; height: 40px" src="{{ url_for('static',filename='img/logo.png') }}" />
+        </nav>
+    </header>
+    <section class="login-section">
+        <div class="login-container">
+            <h2>اعادت تعين كلمت المرور</h2>
+            <div class="content">
+
+                <form action="/forgetpasswored" method="POST" class="form-login">
+                    <input type="text" name="email" placeholder=" اكتب ايميلك هنا " />
+                    <input type="submit" value="غير كلمت المرور" />
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
