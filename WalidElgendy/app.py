@@ -1360,6 +1360,8 @@ def cours_info(id):
     Course_info = Course.query.get(id)
     Lessons = Lesson.query.filter_by(course_id=id).all()
     return jsonify({"course": Course_info.serialize(), "lessons": [lesson.serialize() for lesson in Lessons]})
+
+
 # ========================== Error Pages ==========================
 @app.errorhandler(404)
 def page_not_found(e):

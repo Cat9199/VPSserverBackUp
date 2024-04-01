@@ -143,18 +143,22 @@ class Imega(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(100), nullable=False)
     img = db.Column(db.LargeBinary)
+    
 class UserStartDate(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       email = db.Column(db.String(120), nullable=False)
       examCode = db.Column(db.String(120), nullable=False)
       startDate = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-      
+      willEnd = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+      examtime = db.Column(db.Integer, nullable=False)
       def serialize(self):
             return {
                   'id': self.id,
                   'email': self.email,
                   'examCode': self.examCode,
-                  'startDate': self.startDate
+                  'startDate': self.startDate,
+                  'willEnd': self.willEnd,
+                  'examtime': self.examtime
             }
 #APIs routes
 # ================exam routes================
@@ -353,13 +357,25 @@ def storUserStartDate():
       data = request.json
       email = data['email']
       examCode = data['examCode']
-      new_user_start_date = UserStartDate(email=email, examCode=examCode)
-      db.session.add(new_user_start_date)
-      db.session.commit()
-      # make he ratern stored date
-      stored_date = UserStartDate.query.filter_by(email=email, examCode=examCode).first()
-      return jsonify(stored_date.serialize()), 201
-
+      exam = Exame.query.filter_by(examCode=examCode).first()
+      if exam is None:
+            return jsonify({'error': 'Exam not found'}), 404
+      else:
+            examtime = exam.examHours * 60 + exam.examMinutes
+            stored = UserStartDate.query.filter_by(email=email, examCode=examCode).first()
+            if stored is not None:
+                  
+                  willend = stored.startDate + datetime.timedelta(minutes=examtime)
+                  stored.willEnd = willend
+                  stored.examtime = examtime
+                  db.session.commit()
+                  return jsonify(stored.serialize()), 200
+            else:
+                  # make he ratern stored date
+                  stored_date = UserStartDate(email=email, examCode=examCode, examtime=examtime)
+                  db.session.add(stored_date)
+                  db.session.commit()
+                  return jsonify(stored_date.serialize()), 201
 # ================media routes================
 
 @app.route('/api/v1/upload_image', methods=['POST'])
