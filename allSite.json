@@ -43,6 +43,12 @@
                   "workers": 3,
                   "host": "127.0.0.1",
                   "port": 8006
+                },
+                {
+                  "path":"/root/SiteCode/ExamSystem",
+                  "workers": 3,
+                  "host": "127.0.0.1",
+                  "port": 8007
                 }
       ]
   }
