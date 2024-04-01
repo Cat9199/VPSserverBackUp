@@ -1,0 +1,584 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "2.0.0",
+        "title": "Exam API",
+        "description": "API documentation for the Exam App"
+    },
+
+    "paths": {
+        "/api/v1/add_exame": {
+            "post": {
+                "summary": "Add Exam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "platform": {
+                                        "type": "string"
+                                    },
+                                    "examHours": {
+                                        "type": "integer"
+                                    },
+                                    "examMinutes": {
+                                        "type": "integer"
+                                    },
+                                    "allowExamTimeForStudent": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": ["name", "platform", "examHours", "examMinutes", "allowExamTimeForStudent"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Exam added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "examCode": "ABC123"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/get_all_user_marks": {
+            "get": {
+                "summary": "Get All User Marks",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": [{
+                                        "id": 1,
+                                        "email": "example@email.com",
+                                        "examCode": "ABC123",
+                                        "mark": 80,
+                                        "platform": "Online",
+                                        "userPhone": "1234567890",
+                                        "userParentPhone": "0987654321"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "email": "another@example.com",
+                                        "examCode": "XYZ456",
+                                        "mark": 75,
+                                        "platform": "Offline",
+                                        "userPhone": "9876543210",
+                                        "userParentPhone": "0123456789"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/add_question": {
+            "post": {
+                "summary": "Add Question",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "question": {
+                                        "type": "string"
+                                    },
+                                    "examCode": {
+                                        "type": "string"
+                                    },
+                                    "questionType": {
+                                        "type": "string"
+                                    },
+                                    "questionMark": {
+                                        "type": "integer"
+                                    },
+                                    "imgWithQuestions": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["question", "examCode", "questionType", "questionMark", "imgWithQuestions"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Question added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "answerCode": "XYZ456"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/add_mcq_answer": {
+            "post": {
+                "summary": "Add MCQ Answer",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "answer": {
+                                        "type": "string"
+                                    },
+                                    "is_correct": {
+                                        "type": "boolean"
+                                    },
+                                    "answerCode": {
+                                        "type": "string"
+                                    },
+                                    "imgWithAnswer": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["answer", "is_correct", "answerCode", "imgWithAnswer"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "MCQ Answer added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "answerCode": "XYZ456"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/add_true_false_answer": {
+            "post": {
+                "summary": "Add True/False Answer",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "answer": {
+                                        "type": "string"
+                                    },
+                                    "answerCode": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["answer", "answerCode"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "True/False Answer added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "answerCode": "XYZ456"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/get_all_exames": {
+            "get": {
+                "summary": "Get All Exams",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": [{
+                                        "id": 1,
+                                        "name": "Example Exam 1",
+                                        "examCode": "ABC123",
+                                        "platform": "Online",
+                                        "examHours": 2,
+                                        "examMinutes": 30,
+                                        "allowExamTimeForStudent": 15
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "Example Exam 2",
+                                        "examCode": "XYZ456",
+                                        "platform": "Offline",
+                                        "examHours": 1,
+                                        "examMinutes": 45,
+                                        "allowExamTimeForStudent": 20
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/get_exame/{code}": {
+            "get": {
+                "summary": "Get Exam by Code",
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": 1,
+                                    "name": "Example Exam",
+                                    "examCode": "ABC123",
+                                    "platform": "Online",
+                                    "examHours": 2,
+                                    "examMinutes": 30,
+                                    "allowExamTimeForStudent": 15
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Exam not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Exam not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/get_exam_questions/{code}": {
+            "get": {
+                "summary": "Get Exam Questions",
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": [{
+                                        "id": 1,
+                                        "question": "Example Question 1",
+                                        "examCode": "ABC123",
+                                        "answerCode": "XYZ456",
+                                        "questionType": "mcq",
+                                        "questionMark": 10,
+                                        "imgWithQuestions": "img_url1",
+                                        "answers": [{
+                                                "id": 1,
+                                                "answer": "Option A",
+                                                "is_correct": true,
+                                                "answerCode": "XYZ456",
+                                                "imgWithAnswer": "img_url1"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "answer": "Option B",
+                                                "is_correct": false,
+                                                "answerCode": "PQR789",
+                                                "imgWithAnswer": "img_url2"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": 2,
+                                        "question": "Example Question 2",
+                                        "examCode": "ABC123",
+                                        "answerCode": "PQR789",
+                                        "questionType": "true_false",
+                                        "questionMark": 5,
+                                        "imgWithQuestions": "img_url2",
+                                        "answer": {
+                                            "id": 3,
+                                            "answer": "True",
+                                            "answerCode": "PQR789"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Questions not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Questions not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/send_exam": {
+            "post": {
+                "summary": "Send Exam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "examCode": {
+                                        "type": "string"
+                                    },
+                                    "questions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "questionType": {
+                                                    "type": "string"
+                                                },
+                                                "answerCode": {
+                                                    "type": "string"
+                                                },
+                                                "answer": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["questionType", "answerCode", "answer"]
+                                        }
+                                    },
+                                    "platform": {
+                                        "type": "string"
+                                    },
+                                    "userPhone": {
+                                        "type": "string"
+                                    },
+                                    "userParentPhone": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["email", "examCode", "questions", "platform", "userPhone", "userParentPhone"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Exam sent successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mark": 80,
+                                    "examMark": 30,
+                                    "examInfo": {
+                                        "id": 1,
+                                        "name": "Example Exam",
+                                        "examCode": "ABC123",
+                                        "platform": "Online",
+                                        "examHours": 2,
+                                        "examMinutes": 30,
+                                        "allowExamTimeForStudent": 15
+                                    },
+                                    "user": {
+                                        "id": 1,
+                                        "email": "example@email.com",
+                                        "examCode": "ABC123",
+                                        "mark": 80,
+                                        "platform": "Online",
+                                        "userPhone": "1234567890",
+                                        "userParentPhone": "0987654321"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Questions not found for the given examCode or Question with answerCode not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Questions not found for the given examCode or Question with answerCode not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/get_user_answers/{email}/{examCode}": {
+            "get": {
+                "summary": "Get User Answers",
+                "parameters": [{
+                        "name": "email",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "examCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": [{
+                                        "id": 1,
+                                        "email": "example@email.com",
+                                        "examCode": "ABC123",
+                                        "questionCode": "XYZ456",
+                                        "userAnswers": "Option A",
+                                        "actualAnswer": "Option A",
+                                        "isTrue": true
+                                    },
+                                    {
+                                        "id": 2,
+                                        "email": "example@email.com",
+                                        "examCode": "ABC123",
+                                        "questionCode": "PQR789",
+                                        "userAnswers": "True",
+                                        "actualAnswer": "True",
+                                        "isTrue": true
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User answers not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "User answers not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/upload_image": {
+            "post": {
+                "summary": "Upload Image",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "code": "<unique_code>"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "No file part"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/get_image/{code}": {
+            "get": {
+                "summary": "Get Image",
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "image/jpeg": {
+                                "example": "<image_data>"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Image not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Image not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
