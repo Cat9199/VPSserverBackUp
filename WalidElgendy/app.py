@@ -1361,6 +1361,59 @@ def cours_info(id):
     Lessons = Lesson.query.filter_by(course_id=id).all()
     return jsonify({"course": Course_info.serialize(), "lessons": [lesson.serialize() for lesson in Lessons]})
 
+@app.route('/api/th/swap_with_previous_lesson/<int:lesson_id>', methods=['GET'])
+def swap_with_previous_lesson(lesson_id):
+    # الحصول على الدرس الحالي
+    current_lesson = Lesson.query.get(lesson_id)
+    if not current_lesson:
+        return jsonify({'success': False, 'message': 'Lesson not found'}), 404
+
+    # البحث عن الدرس السابق داخل نفس الدورة بناءً على الـid
+    previous_lesson = Lesson.query.filter(
+        Lesson.course_id == current_lesson.course_id,
+        Lesson.id < lesson_id
+    ).order_by(Lesson.id.desc()).first()
+
+    if not previous_lesson:
+        return jsonify({'success': False, 'message': 'No previous lesson found'}), 404
+
+    # تبادل المعلومات بين الدرسين
+    current_lesson.name, previous_lesson.name = previous_lesson.name, current_lesson.name
+    current_lesson.iframeCode, previous_lesson.iframeCode = previous_lesson.iframeCode, current_lesson.iframeCode
+    current_lesson.lessonTime, previous_lesson.lessonTime = previous_lesson.lessonTime, current_lesson.lessonTime
+    current_lesson.Ltype, previous_lesson.Ltype = previous_lesson.Ltype, current_lesson.Ltype
+    current_lesson.play_count, previous_lesson.play_count = previous_lesson.play_count, current_lesson.play_count
+
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Lessons swapped successfully'})
+@app.route('/api/th/swap_with_next_lesson/<int:lesson_id>', methods=['GET'])
+def swap_with_next_lesson(lesson_id):
+    # الحصول على الدرس الحالي
+    current_lesson = Lesson.query.get(lesson_id)
+    if not current_lesson:
+        return jsonify({'success': False, 'message': 'Lesson not found'}), 404
+
+    # البحث عن الدرس التالي داخل نفس الدورة بناءً على الـid
+    next_lesson = Lesson.query.filter(
+        Lesson.course_id == current_lesson.course_id,
+        Lesson.id > lesson_id
+    ).order_by(Lesson.id.asc()).first()
+
+    if not next_lesson:
+        return jsonify({'success': False, 'message': 'No next lesson found'}), 404
+
+    # تبادل المعلومات بين الدرسين
+    current_lesson.name, next_lesson.name = next_lesson.name, current_lesson.name
+    current_lesson.iframeCode, next_lesson.iframeCode = next_lesson.iframeCode, current_lesson.iframeCode
+    current_lesson.lessonTime, next_lesson.lessonTime = next_lesson.lessonTime, current_lesson.lessonTime
+    current_lesson.Ltype, next_lesson.Ltype = next_lesson.Ltype, current_lesson.Ltype
+    current_lesson.play_count, next_lesson.play_count = next_lesson.play_count, current_lesson.play_count
+
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Lessons swapped successfully'})
+
 
 # ========================== Error Pages ==========================
 @app.errorhandler(404)
