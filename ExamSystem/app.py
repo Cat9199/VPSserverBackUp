@@ -1,5 +1,5 @@
 
-from flask import Flask,jsonify,Response,request
+from flask import Flask,jsonify,Response,request,redirect,url_for,render_template
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -163,6 +163,28 @@ class UserStartDate(db.Model):
 #APIs routes
 # ================exam routes================
 # add exam
+
+@app.route('/submit_exam', methods=['POST', 'GET'])
+def submit_exam():
+    if request.method == 'GET':
+        return render_template('submit_exam.html')
+    else:
+        exam_name = request.form.get('examName')
+        platform = request.form.get('platform')
+        hours = int(request.form.get('hours'))
+        minutes = int(request.form.get('minutes'))
+        allow_time = int(request.form.get('allowTime'))
+        
+        # Generate a unique exam code
+        exam_code = makeUniqueCode()
+        
+        # Add the exam data to the database
+        new_exam = Exame(name=exam_name, examCode=exam_code, platform=platform, examHours=hours, examMinutes=minutes, allowExamTimeForStudent=allow_time)
+        db.session.add(new_exam)
+        db.session.commit()
+        
+        # Redirect the user to the page to add questions for this exam
+        return redirect(url_for('add_questions', exam_id=new_exam.id))
 
 # home route 
 @app.route('/', methods=['GET'])

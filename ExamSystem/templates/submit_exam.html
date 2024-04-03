@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Exam Form</title>
+</head>
+<body>
+    <h2>Add Exam</h2>
+    <form action="/submit_exam" method="post">
+        <label for="examName">Exam Name:</label>
+        <input type="text" id="examName" name="examName"><br><br>
+        
+        <label for="platform">Platform:</label>
+        <input type="text" id="platform" name="platform"><br><br>
+        
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" name="hours"><br><br>
+        
+        <label for="minutes">Minutes:</label>
+        <input type="number" id="minutes" name="minutes"><br><br>
+        
+        <label for="allowTime">Allow Time:</label>
+        <input type="number" id="allowTime" name="allowTime"><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
