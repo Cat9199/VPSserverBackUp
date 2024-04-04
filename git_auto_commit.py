@@ -22,7 +22,7 @@ def git_auto_commit():
     subprocess.run(['git', 'commit', '-m', commit_message])
 
     # Push changes to remote repository
-    subprocess.run(['git', 'push'])
+    subprocess.run(['git', 'push','-f'])
 
     # Write log entry
     with open('git_auto_commit.log', 'a') as log_file:
