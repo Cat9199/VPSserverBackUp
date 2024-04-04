@@ -23,3 +23,10 @@ To https://github.com/Cat9199/VPSserverBackUp.git
    56d1dcd..e75eeb0  main -> main
 2024-04-03 12:06:21: Git auto commit executed
 Script executed at 2024-04-04 11:12:32
+To https://github.com/Cat9199/VPSserverBackUp.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'https://github.com/Cat9199/VPSserverBackUp.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
