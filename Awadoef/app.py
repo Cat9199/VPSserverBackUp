@@ -1071,9 +1071,25 @@ def get_user(id):
 def get_user_courses(email):
     user = Users.query.filter_by(email=email).first()
     Enrolc = Enroll.query.filter_by(user=user.email).all() 
-    # retern all coreses data
-    return jsonify({"courses": [enroll.serialize() for enroll in Enrolc]})
-# route for th to init codes with value and the num of codes and it retern codes and a url for csv file with codes and it post not git method
+    # i wont he ratewrn cores name and id and the date of enrolment and price of the coreas
+    all_courses = []
+    Systemcoreses = Course.query.all()
+    for enroll in Enrolc:
+        for course in Systemcoreses:
+            if course.id == enroll.course:
+                all_courses.append({"name": course.name, "id": course.id, "date": enroll.created_at, "price": course.price})
+    return jsonify({"courses": all_courses})
+# delet coures unrolemint by id
+@app.route("/api/th/delete_enrolment",methods=['POST'])
+def delete_enrolment():
+    data = request.json
+    user = Users.query.filter_by(email=data.get('user')).first()
+    course = Course.query.get(data.get('course'))
+    deletEnroll = Enroll.query.filter_by(user=user.email,course=course.id).first()
+    db.session.delete(deletEnroll)
+    db.session.commit()
+    return jsonify({"success": True})
+#  and the num of codes and it retern codes and a url for csv file with codes and it post not git method
 @app.route("/api/th/init_codes", methods=['POST'])
 def init_codes():
     value = request.form.get('value')
@@ -1132,6 +1148,13 @@ def get_user_data(email):
     Enrolc = Enroll.query.filter_by(user=user.email).all()
     codes = Pay_code.query.filter_by(user=user.email).all()
     return jsonify({"user": user.serialize(), "enrolc": [enroll.serialize() for enroll in Enrolc], "codes": [code.serialize() for code in codes]})
+@app.route("/api/mas3od/get_user_data/<int:id>")
+def get_user_data_mas3od(id):
+    user = Users.query.get_or_404(id)
+    Enrolc = Enroll.query.filter_by(user=user.email).all()
+    codes = Pay_code.query.filter_by(user=user.email).all()
+    return jsonify({"user": user.serialize(), "enrolc": [enroll.serialize() for enroll in Enrolc], "codes": [code.serialize() for code in codes]})
+
 
 @app.route("/api/th/login", methods=['POST'])
 def ThLogin():
@@ -1315,6 +1338,12 @@ def send_notification(id):
     url = data['url']
     addNotificashen(id,notificashen,type,url)
     return jsonify({"success": True})
+@app.route("/api/th/cours_info/<int:id>")
+def cours_info(id):
+    Course_info = Course.query.get(id)
+    Lessons = Lesson.query.filter_by(course_id=id).all()
+    return jsonify({"course": Course_info.serialize(), "lessons": [lesson.serialize() for lesson in Lessons]})
+
 @app.route('/api/th/swap_with_previous_lesson/<int:lesson_id>', methods=['GET'])
 def swap_with_previous_lesson(lesson_id):
     # الحصول على الدرس الحالي
@@ -1368,14 +1397,15 @@ def swap_with_next_lesson(lesson_id):
 
     return jsonify({'success': True, 'message': 'Lessons swapped successfully'})
 
+
 # ========================== Error Pages ==========================
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('web/error/404.html'), 404
-# 5xx errors
+
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('web/error/500.html'), 500
+    return redirect('/logout')
 # ======================== Servir Site ==========================
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 3030))
