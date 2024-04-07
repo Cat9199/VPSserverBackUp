@@ -11,11 +11,14 @@ from flask import Flask, redirect, url_for, jsonify , session, request, render_t
 from google.auth.transport import requests
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from honeybadger.contrib import FlaskHoneybadger
 from sqlalchemy.sql import func
+from sqlalchemy import distinct
 from models.fpass import send_reset_password_email
 from datetime import datetime as dt, date , timedelta
 from flask_cors import CORS
 import datetime
+import random
 import secrets
 import requests
 import base64
@@ -23,8 +26,6 @@ import os
 import io
 import requests
 import json
-import random
-
 # ========================== Config ==========================
 global APP_URL
 APP_URL = 'https://scholarsync.e3lanotopia.software/'
@@ -43,6 +44,11 @@ api_key  = 'acc_5096faf3f7807f9'
 api_secret  = 'bf48a14618503e7bed7304ad193a3010'
 migrate = Migrate(app, db)
 CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['HONEYBADGER_ENVIRONMENT'] = 'production'
+app.config['HONEYBADGER_API_KEY'] = 'hbp_RfzaI0UP6S4Bf9ClCIqOLRvvV5xmas4kCkjV'
+app.config['HONEYBADGER_PARAMS_FILTERS'] = 'password, secret, credit-card'
+FlaskHoneybadger(app, report_exceptions=True)
+
 # ========================== Models =========================
 
 class Users(db.Model):
@@ -212,18 +218,9 @@ class Admin(db.Model):
     
 
 # ========================== Functions ==========================
-def addPayLog(user,amount,prodect_id,prodect_name):
-    new_log = Wallet_log(
-        user=user,
-        Amount=amount,
-        Prodect_id=prodect_id,
-        Prodect_name=prodect_name
-    )
-    db.session.add(new_log)
-    db.session.commit()
 import random
 def addPayLog(user,amount,prodect_id,prodect_name):
-    import random
+
     new_log = Wallet_log(
         user=user,
         Amount=amount,
@@ -387,11 +384,15 @@ def logingoogle():
 # ========================== Main Routes ==========================   
 @app.before_request
 def detect_device():
-    user_agent = request.headers.get('User-Agent')
-    session['is_mobile'] = 'Mobile' in user_agent
-    session['is_webview'] = 'wv' in user_agent.lower()
-    print(session['is_mobile'], session['is_webview'])
-    
+    try:
+        user_agent = request.headers.get('User-Agent')
+        session['is_mobile'] = 'Mobile' in user_agent
+        session['is_webview'] = 'wv' in user_agent.lower()
+    except:
+        user_agent = request.headers.get('User-Agent')
+        session['is_mobile'] = False
+        session['is_webview'] = False
+
 @app.route('/')
 def home():
     username = session.get('user')
@@ -407,29 +408,34 @@ def home():
 
 # ========================== Login and Sign Up ==========================
 
-@app.route('/login',methods = ['POST','GET'])
+from sqlalchemy import or_
+
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
+        identifier = request.form['email']
         password = request.form['password']
-        user = Users.query.filter_by(email=email).first()
-        if user :
+        
+        # Check if the identifier is an email or a phone number
+        user = Users.query.filter(or_(Users.email == identifier, Users.phone_number == identifier,Users.name==identifier)).first()
+        
+        if user:
             if user.password == password:
                 session.permanent = True
-                session['user'] = email
-                addLogin(email)
+                session['user'] = user.email  
+                addLogin(user.email)
                 return redirect('/dashboard')
-            else :
-                return 'sorry'
+            else:
+                    return render_template('app/login.html',error='كلمة المرور خاطئة',username=identifier)
+        else:
+                return render_template('app/login.html',error='البريد الالكتروني او رقم الهاتف غير موجود')
+
     username = session.get('user')
     if username:
         return redirect('/dashboard')
-    else :              
-        if session['is_mobile']:
+    else:              
             return render_template('app/login.html')
-        else:
-            return render_template('web/login.html')
-     
+
 
 @app.route('/sign_up')
 def sign_up():
@@ -437,68 +443,71 @@ def sign_up():
     if username:
         return redirect('/dashboard')
     else :
-        if session['is_mobile']:
             return render_template("app/signup.html")
-        else :
-            return render_template("web/signup.html")
     
 @app.route('/signup', methods=['POST'])
 def signup():
-    username = request.form.get('username')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    city = request.form.get('city')
-    date_of_birth = request.form.get('dateInput')
-    phone = request.form.get('phone')
-    phone_parent = request.form.get('phone-parent')
-    section = request.form.get('section')
-    gender = request.form.get('gender')
-    age=calculate_age(date_of_birth)
-    academic_year = None
-    if section == '1sec':
-          section = "الصف الاول الثانوي"
-          academic_year = 1
-    elif section == '2sic':
-          section = "الصف الثاني الثانوي علمي"
-          academic_year = 2
-    elif section == '2art':
-          section = "الصف الثاني الثانوي ادبي"
-          academic_year = 2
-    elif section == '3art':
-            section = "الصف الثالث الثانوي ادبي"
-            academic_year = 3
-    elif section == '3sic':
-            section = "الصف الثالث الثانوي علم علوم"
-            academic_year = 3
-    elif section == '3math':
-            section = "الصف الثالث الثانوي علم رياضة"
-            academic_year = 3
-    else:
-        pass
-    if gender == 'boy':
-        userimg = f"https://avatar.iran.liara.run/public/boy?username={username}"
-    else :
-        userimg = f"https://avatar.iran.liara.run/public/girl?username={username}"
-    new_user = Users(
-        name=username,
-        email=email,
-        password=password,
-        city=city,
-        age=age,
-        phone_number=phone,
-        father_number = phone_parent,
-        birthdate=date_of_birth,
-        academic_year = academic_year ,
-        academic_section=section, 
-        profile_img = userimg
-    )
-    db.session.add(new_user)
-    db.session.commit()
-    session.permanent = True
-    addLogin(new_user.email)
-    session['user'] = new_user.email
-    return redirect('/dashboard')
-
+    try:
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        city = request.form.get('city')
+        date_of_birth = request.form.get('dateInput')
+        phone = request.form.get('phone')
+        phone_parent = request.form.get('phone-parent')
+        section = request.form.get('section')
+        gender = request.form.get('gender')
+        age=calculate_age(date_of_birth)
+        academic_year = None
+        
+        if section == '1sec':
+            section = "الصف الاول الثانوي"
+            academic_year = 1
+        elif section == '2sic':
+            section = "الصف الثاني الثانوي علمي"
+            academic_year = 2
+        elif section == '2art':
+            section = "الصف الثاني الثانوي ادبي"
+            academic_year = 2
+        elif section == '3art':
+                section = "الصف الثالث الثانوي ادبي"
+                academic_year = 3
+        elif section == '3sic':
+                section = "الصف الثالث الثانوي علم علوم"
+                academic_year = 3
+        elif section == '3math':
+                section = "الصف الثالث الثانوي علم رياضة"
+                academic_year = 3
+        else:
+            pass
+        if gender == 'boy':
+            userimg = f"https://avatar.iran.liara.run/public/boy?username={username}"
+        else :
+            userimg = f"https://avatar.iran.liara.run/public/girl?username={username}"
+        if username != None and email != None and password != None and city != None and date_of_birth != None and phone != None and phone_parent != None and section != None :
+            new_user = Users(
+                name=username,
+                email=email,
+                password=password,
+                city=city,
+                age=age,
+                phone_number=phone,
+                father_number = phone_parent,
+                birthdate=date_of_birth,
+                academic_year = academic_year ,
+                academic_section=section, 
+                profile_img = userimg
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            session.permanent = True
+            addLogin(new_user.email)
+            session['user'] = new_user.email
+            return redirect('/dashboard')
+        else :
+            return render_template('app/signup.html',error='الرجاء ملئ جميع الحقول')
+    except:
+        return render_template('app/signup.html',error='حدث خطأ ما الرجاء المحاولة مرة اخرى او التواصل مع الدعم الفني')
 @app.route('/callback')
 def callback():
     code = request.args.get('code')
@@ -562,11 +571,7 @@ def googlesc(id):
         addLogin(GoodleAc.email)
         session['user'] = GoodleAc.email
         return redirect('/dashboard')
-    if session['is_mobile']:
-        return render_template("app/googlesc.html",id=id)
-    else : 
-        return render_template("web/googlesc.html",id=id) 
-
+    return render_template("app/googlesc.html",id=id)
 @app.route("/forgetpasswored",methods=['POST','GET'])
 def forgetpasswored():
     if request.method == 'POST':
@@ -609,7 +614,6 @@ def logout():
     username = session.get('user')
     if username:
         session['user'] = None
-        return redirect('/')
     else:
         return redirect('/')
 # ========================== User Dashboard ==========================
@@ -636,21 +640,39 @@ def dashboard():
     else:
         return redirect('/login')
 
+
 @app.route('/all-courses')
 def all_courses():
     username = session.get('user')
     if username:
         user = Users.query.filter_by(email=username).first()
+        
+        # Use distinct to get unique categories directly from the database
+        categories = db.session.query(distinct(Course.category)).filter_by(academic_year=user.academic_year).all()
+        unique_categories = [category[0] for category in categories]
+
         courses = Course.query.filter_by(academic_year=user.academic_year).all()
-        categories_set = set(course.category for course in courses if course.category)
-        unique_categories = list(categories_set)
+        print(unique_categories)
         if session['is_mobile']:
-            return render_template('app/dashboard/all-courses.html',user=user,courses=courses,uni=unique_categories)
-        else:    
-            return render_template('web/dashboard/all-courses.html',user=user,courses=courses,uni=unique_categories)
-    else :
+            return render_template('app/dashboard/all-courses.html', user=user, courses=courses, uni=unique_categories)
+        else:
+            return render_template('web/dashboard/all-courses.html', user=user, courses=courses, uni=unique_categories)
+    else:
         return redirect('/login')
-    
+#path category/:category
+
+@app.route('/category/<category>')
+def category(category):
+    username = session.get('user')
+    if username:
+        user = Users.query.filter_by(email=username).first()
+        courses = Course.query.filter_by(category=category,academic_year=user.academic_year).all()
+        if session['is_mobile']:
+            return render_template('app/dashboard/category.html',user=user,courses=courses,category=category)
+        else:
+            return render_template('web/dashboard/category.html',user=user,courses=courses,category=category)
+    else:
+        return redirect('/login')
 @app.route('/my-courses')
 def my_courses():
     username = session.get('user')
@@ -666,13 +688,8 @@ def my_courses():
             return render_template('app/dashboard/my-courses.html', user=user, courses=courses, uni=unique_categories)
         else:
             return render_template('web/dashboard/my-courses.html', user=user, courses=courses, uni=unique_categories)
-        
-
     else :
         return redirect('/login')
-    
-
-
 @app.route("/q-bank")
 def q_bank():
     username = session.get('user')
@@ -755,12 +772,6 @@ def course(id):
         else:
             return render_template('web/dashboard/corese-info.html',user=user,Course_info=Course_info,Lessons=Lessons,states=states,lid = firesLessonInCouresId)
     else :
-
-
-
-
-
-
         return redirect('/login')
 @app.route("/lesson/<int:id>")
 def lesson(id):
@@ -1046,6 +1057,7 @@ def course_api(id):
 @app.route("/api/th/get_all_users")
 def get_all_users():
     users = Users.query.all()
+    users = users[::-1]
     return jsonify({"users": [user.serialize() for user in users]})
 @app.route("/api/th/get_users/<int:year>/<section>/<location>")
 def get_users(year,section,location):
@@ -1343,7 +1355,6 @@ def cours_info(id):
     Course_info = Course.query.get(id)
     Lessons = Lesson.query.filter_by(course_id=id).all()
     return jsonify({"course": Course_info.serialize(), "lessons": [lesson.serialize() for lesson in Lessons]})
-
 @app.route('/api/th/swap_with_previous_lesson/<int:lesson_id>', methods=['GET'])
 def swap_with_previous_lesson(lesson_id):
     # الحصول على الدرس الحالي
@@ -1397,15 +1408,18 @@ def swap_with_next_lesson(lesson_id):
 
     return jsonify({'success': True, 'message': 'Lessons swapped successfully'})
 
-
 # ========================== Error Pages ==========================
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('web/error/404.html'), 404
-
 @app.errorhandler(500)
-def internal_server_error(e):
-    return redirect('/logout')
+def error(e):
+    username = session.get('user')
+    username = Users.query.filter_by(email=username).first()
+    if username:
+        return redirect('/dashboard')
+    else:
+        return redirect('/logout')
 # ======================== Servir Site ==========================
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 3030))

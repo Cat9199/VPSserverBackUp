@@ -2,38 +2,23 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/web/allc.css') }}">
 <div class="header-dashboard">
     <h1>كل الكورسات</h1>
-    {% for category in uni %}
-    <div class="month-courses">
-        <div class="header-courses">
-            <div class="main-lable">
-                <div class="circle"></div>
-                <h3>{{ category }}</h3>
-            </div>
+
+    <section class="section-trees">
+        <div class="main-lable">
+            <div class="circle"></div>
+            <h3>التصنيفات</h3>
+        </div>
+        <div class="trees">
+            {% for category in uni %}
+
+            <a class="tree" href="/category/{{category}}">
+                <img src="https://imgs.search.brave.com/5zj-hMR14wIFSbLYDaPk1zDlVcUG22EeZSJaVXNO1ks/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAwLzY1LzU5LzUw/LzM2MF9GXzY1NTk1/MDcwX3l1OXoyWjFO/ZDRvVVNReHBlSkh3/aVp1Nnk4eUtEVHEy/LmpwZw" alt="">
+                <h3>{{category}}</h3>
+            </a>
+            
+            {%endfor%}
 
         </div>
-        <div class="courses">
-            {% for course in courses if course.category == category %}
-            <div class="course">
-                <div class="img-course">
-                    <img src="{{ course.banner_url }}" alt="">
-                </div>
+    </section>
 
-                <div class="course-info">
-                    <h3>{{ course.name }}</h3>
-                    {% if course.description %}
-                    <p>{{ course.description | truncate(100) }}</p>
-                    {% else %}
-                    <p>لا يوجد وصف للكورس </p>
-                    {% endif %}
-                </div>
-                <div class="course-price">
-                    <a href="course/{{course.id}}">تفاصيل</a>
-                    <p>السعر {{course.price}} جنية</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
-</div>
-{% endblock %}
+    {% endblock %}

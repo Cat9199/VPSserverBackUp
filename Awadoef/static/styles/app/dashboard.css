@@ -142,7 +142,7 @@ main {
     right: 0;
     width: 100%;
     border-left: 1px solid var(--neutral-7, #C6D0E0);
-    background: var(--blue-6, #D4E7FF);
+    background: var(--neutral-7);
     display: flex;
     justify-content: space-evenly;
     padding: 0.5rem 0;

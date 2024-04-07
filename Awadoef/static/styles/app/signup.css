@@ -255,3 +255,25 @@ body {
 #screen2, #screen3 {
     display: none;
 }
+.prev {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    border-radius: 30px;
+    background: var(--neutral-8, #E0E6EE);
+    color: var(--neutral-3, #262F44);
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 10px; /* إضافة هامش للتباعد بين الأزرار */
+}
+
+.prev:hover {
+    opacity: 0.8;
+    background: var(--neutral-7, #D2D9E1);
+    color: var(--neutral-9, #EEF4FA);
+}
