@@ -409,29 +409,34 @@ def home():
 
 # ========================== Login and Sign Up ==========================
 
-@app.route('/login',methods = ['POST','GET'])
+from sqlalchemy import or_
+
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
+        identifier = request.form['email']
         password = request.form['password']
-        user = Users.query.filter_by(email=email).first()
-        if user :
+        
+        # Check if the identifier is an email or a phone number
+        user = Users.query.filter(or_(Users.email == identifier, Users.phone_number == identifier,Users.name==identifier)).first()
+        
+        if user:
             if user.password == password:
                 session.permanent = True
-                session['user'] = email
-                addLogin(email)
+                session['user'] = user.email  
+                addLogin(user.email)
                 return redirect('/dashboard')
-            else :
-                return 'sorry'
+            else:
+                    return render_template('app/login.html',error='كلمة المرور خاطئة',username=identifier)
+        else:
+                return render_template('app/login.html',error='البريد الالكتروني او رقم الهاتف غير موجود')
+
     username = session.get('user')
     if username:
         return redirect('/dashboard')
-    else :              
-        if session['is_mobile']:
+    else:              
             return render_template('app/login.html')
-        else:
-            return render_template('web/login.html')
-     
+
 
 @app.route('/sign_up')
 def sign_up():
@@ -439,67 +444,71 @@ def sign_up():
     if username:
         return redirect('/dashboard')
     else :
-        if session['is_mobile']:
             return render_template("app/signup.html")
-        else :
-            return render_template("web/signup.html")
     
 @app.route('/signup', methods=['POST'])
 def signup():
-    username = request.form.get('username')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    city = request.form.get('city')
-    date_of_birth = request.form.get('dateInput')
-    phone = request.form.get('phone')
-    phone_parent = request.form.get('phone-parent')
-    section = request.form.get('section')
-    gender = request.form.get('gender')
-    age=calculate_age(date_of_birth)
-    academic_year = None
-    if section == '1sec':
-          section = "الصف الاول الثانوي"
-          academic_year = 1
-    elif section == '2sic':
-          section = "الصف الثاني الثانوي علمي"
-          academic_year = 2
-    elif section == '2art':
-          section = "الصف الثاني الثانوي ادبي"
-          academic_year = 2
-    elif section == '3art':
-            section = "الصف الثالث الثانوي ادبي"
-            academic_year = 3
-    elif section == '3sic':
-            section = "الصف الثالث الثانوي علم علوم"
-            academic_year = 3
-    elif section == '3math':
-            section = "الصف الثالث الثانوي علم رياضة"
-            academic_year = 3
-    else:
-        pass
-    if gender == 'boy':
-        userimg = f"https://avatar.iran.liara.run/public/boy?username={username}"
-    else :
-        userimg = f"https://avatar.iran.liara.run/public/girl?username={username}"
-    new_user = Users(
-        name=username,
-        email=email,
-        password=password,
-        city=city,
-        age=age,
-        phone_number=phone,
-        father_number = phone_parent,
-        birthdate=date_of_birth,
-        academic_year = academic_year ,
-        academic_section=section, 
-        profile_img = userimg
-    )
-    db.session.add(new_user)
-    db.session.commit()
-    session.permanent = True
-    addLogin(new_user.email)
-    session['user'] = new_user.email
-    return redirect('/dashboard')
+    try:
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        city = request.form.get('city')
+        date_of_birth = request.form.get('dateInput')
+        phone = request.form.get('phone')
+        phone_parent = request.form.get('phone-parent')
+        section = request.form.get('section')
+        gender = request.form.get('gender')
+        age=calculate_age(date_of_birth)
+        academic_year = None
+        
+        if section == '1sec':
+            section = "الصف الاول الثانوي"
+            academic_year = 1
+        elif section == '2sic':
+            section = "الصف الثاني الثانوي علمي"
+            academic_year = 2
+        elif section == '2art':
+            section = "الصف الثاني الثانوي ادبي"
+            academic_year = 2
+        elif section == '3art':
+                section = "الصف الثالث الثانوي ادبي"
+                academic_year = 3
+        elif section == '3sic':
+                section = "الصف الثالث الثانوي علم علوم"
+                academic_year = 3
+        elif section == '3math':
+                section = "الصف الثالث الثانوي علم رياضة"
+                academic_year = 3
+        else:
+            pass
+        if gender == 'boy':
+            userimg = f"https://avatar.iran.liara.run/public/boy?username={username}"
+        else :
+            userimg = f"https://avatar.iran.liara.run/public/girl?username={username}"
+        if username != None and email != None and password != None and city != None and date_of_birth != None and phone != None and phone_parent != None and section != None :
+            new_user = Users(
+                name=username,
+                email=email,
+                password=password,
+                city=city,
+                age=age,
+                phone_number=phone,
+                father_number = phone_parent,
+                birthdate=date_of_birth,
+                academic_year = academic_year ,
+                academic_section=section, 
+                profile_img = userimg
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            session.permanent = True
+            addLogin(new_user.email)
+            session['user'] = new_user.email
+            return redirect('/dashboard')
+        else :
+            return render_template('app/signup.html',error='الرجاء ملئ جميع الحقول')
+    except:
+        return render_template('app/signup.html',error='حدث خطأ ما الرجاء المحاولة مرة اخرى او التواصل مع الدعم الفني')
 
 @app.route('/callback')
 def callback():

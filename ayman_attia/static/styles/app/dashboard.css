@@ -142,7 +142,7 @@ main {
     right: 0;
     width: 100%;
     border-left: 1px solid var(--neutral-7, #C6D0E0);
-    background: var(--blue-6, #D4E7FF);
+    background: #0F242F;
     display: flex;
     justify-content: space-evenly;
     padding: 0.5rem 0;
@@ -177,7 +177,7 @@ main {
 }
 
 .sidebar .sidebar-item h5 {
-    color: var(--neutral-3, #262F44);
+    color: var(--neutral-10, #262F44);
     font-weight: 500;
     font-size: 12px;
 }
@@ -232,7 +232,7 @@ main .content {
 
 .notification-card p {
     color: var(--Wraning-5, #FDFDEA);
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -291,7 +291,7 @@ main .content {
     border-radius: 50px;
     background: var(--blue-3, #2E6FF4);
     color: var(--neutral-9, #EEF4FA);
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
     font-weight: 600;
     border: none;
@@ -304,7 +304,7 @@ main .content {
     border-radius: 50px;
     background: var(--Error-3, #F44336);
     color: var(--neutral-9, #EEF4FA);
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
     font-weight: 600;
     border: none;

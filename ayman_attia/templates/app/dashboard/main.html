@@ -1,7 +1,8 @@
 {% extends 'app/dashboard/base.html' %} {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/mainpage.css') }}">
 
-<div class="dashboard-bg">
+<div class="dashboard-bg bg-cover" style="background-image: url('/static/img/bg-classroom.jpg');">
+    <div class="overlay"></div>
     <div class="dashboard-info">
         {% if user.profile_img %}
         <img src="{{ user.profile_img }}" alt=""> {% else %}
@@ -9,36 +10,32 @@
             alt=""> {% endif %}
 
         <div class="info">
-            <h3>مرحبا {{ user.name }}</h3>
+            <h3>Hi {{ user.name }}</h3>
             <p>{{ user.email }}</p>
         </div>
     </div>
 </div>
 <div class="header-dashboard">
-    <h1>الرئيسية</h1>
+    <h1>Home</h1>
 </div>
 <section class="complete-your-courses">
     <div class="main-lable">
         <div class="circle"></div>
-        <h3>كورساتي الاخيرة</h3>
+        <h3>least courses</h3>
     </div>
     <div class="courses">
         {% for c in course_data %}
         <a class="course" href="/course/{{ c.id }}">
             <div class="img-course">
-                <img src="{{ c.banner_url }}" alt="{{ c.name }}">
+                <img src="/static/img/ayman-bg.jpg" alt="{{ c.name }}">
             </div>
             <div class="course-info">
 
 
                 <h3>{{ c.name }}</h3>
-                {% if c.description %}
-                <p>{{ c.description | truncate(100) }}</p>
-                {% else %}
-                <p>لا يوجد وصف للكورس</p> {% endif %}
             </div>
             <div class="course-price">
-                <div>أكمل التعلم الان</div>
+                <div class="py-1 px-2">continue course</div>
                 <!-- <span>120 جنيه</span> -->
             </div>
         </a>

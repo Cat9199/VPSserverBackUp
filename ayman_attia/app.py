@@ -403,10 +403,7 @@ def home():
     if username:
         return redirect('/dashboard')
     else : 
-        if session['is_mobile']:
-            return render_template('app/landing.html')
-        else:
-            return  redirect('/login')
+        return  render_template('web/landing.html')
         
 
 

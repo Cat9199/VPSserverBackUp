@@ -14,20 +14,14 @@
             {% for course in courses %}
             <div class="course">
                 <div class="img-course">
-                    <img src="{{ course.banner_url }}" alt="">
+                    <img src="/static/img/ayman-bg.jpg" alt="">
                 </div>
 
                 <div class="course-info">
                     <h3>{{ course.name }}</h3>
-                    {% if course.description %}
-                    <p>{{ course.description | truncate(100) }}</p>
-                    {% else %}
-                    <p>لا يوجد وصف للكورس </p>
-                    {% endif %}
                 </div>
                 <div class="course-price">
                     <a href="/course/{{course.id}}">تفاصيل</a>
-                    <p>--</p> 
                 </div>
             </div>
             {% endfor %}

@@ -4,16 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول</title>
+    <title>  | walid elgendy</title>
+    <meta name="description" content="أوادوف - موقع يقدم المعلومات حول منتجات walid elgendy باللغة العربية والإنجليزية  ">
+<!-- Example of structured data for a product -->
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Product",
+      "name": "  walid elgendy",
+      "description": "وصف موجز للمنتج",
+      "brand": {
+        "@type": "Brand",
+        "name": "  walid elgendy"
+      }
+    }
+    </script>
+
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/app/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/app/login.css') }}">
+    <!-- Hotjar Tracking Code for AhmedMalikAcadmy -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3911607,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
 </head>
 
 <body dir="rtl">
     <div class="overlay"></div>
     <header>
         <nav>
-            <h3>مسيو وليد الجندي</h3>
+            <h3> walid elgendy </h3>
             <img style="width: 40px; height: 40px" src="{{ url_for('static',filename='img/logo.png') }}" />
         </nav>
     </header>
@@ -30,8 +57,20 @@
                 <div class="line">
                     <span>او ادخل لحسابك باستخدام</span>
                 </div>
+                {% if error %}
+                <p id="message" style="color: red; display: block;">{{ error }}
+                {% if error == 'كلمة المرور خاطئة' %}
+                <a href="https://wa.me/201101010639?text=Hi,%20I%20am%{{username}}.%20I%20use%20Ahmed%20Malik%20Academy.%20Forgot%20password" target="_blank">تواصل مع الدعم</a>
+                {% endif %}
+            </p>
+                {% endif %}
                 <form action="/login" method="POST" class="form-login">
+                    {% if username %}
+                    <input type="text" name="email" value="{{username}}" placeholder="اكتب ايميلك هنا او رقم التليفون" />
+                    {% else %}
                     <input type="text" name="email" placeholder=" اكتب ايميلك هنا او رقم التليفون" />
+                    {% endif %}
+                    
                     <input type="password" name="password" placeholder="اكتب كلمة السر هنا" />
                     <a href="/forgetpasswored">نسيت كلمة السر؟ <span>دوس هنا</span></a>
                     <input type="submit" value="تسجيل الدخول" />

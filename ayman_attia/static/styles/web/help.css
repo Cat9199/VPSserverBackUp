@@ -41,7 +41,7 @@
 .help .help-items a span {
     color: var(--Neutral-3, #262F44);
     text-align: center;
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;

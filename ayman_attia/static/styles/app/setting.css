@@ -99,7 +99,7 @@
     border: none;
     border-radius: 30px;
     background: var(--Error-3, #E62836);
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     transition: all 0.3s ease;
     cursor: pointer;
     color: var(--Neutral-9, #EEF4FA);

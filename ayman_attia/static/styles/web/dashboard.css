@@ -205,7 +205,7 @@ header nav .header-info .user-info .notification h5 {
 
 .wallet-info .add-code .paste-code span {
     color: var(--Neutral-9, #EEF4FA);
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
@@ -223,7 +223,7 @@ header nav .header-info .user-info .notification h5 {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     display: inline-block;
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
 }
 
 .wallet-info .check:hover {
@@ -359,7 +359,7 @@ main .content {
 
 .notification-card p {
     color: var(--Wraning-5, #FDFDEA);
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;

@@ -81,8 +81,6 @@ for site in $sites; do
     cd "$path" || { echo -e "${ERROR_COLOR}Error: Directory $path not found${NC}"; exit 1; }
 
     # Install dependencies if requirements.txt exists
-    install_dependencies
-
     # Start Flask app using Gunicorn
     echo -e "${INFO_COLOR}Starting Flask app in directory: $path on $host:$port...${NC}"
     gunicorn -w "$workers" -b "$host:$port" app:app --daemon &>/dev/null &

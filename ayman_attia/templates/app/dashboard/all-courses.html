@@ -1,12 +1,11 @@
 {% extends 'app/dashboard/base.html' %} {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/allc.css') }}">
 <div class="header-dashboard">
-    <h1>كل الكورسات</h1>
 
     <section class="section-trees">
         <div class="main-lable">
             <div class="circle"></div>
-            <h3>التصنيفات</h3>
+            <h3>Category</h3>
         </div>
 
         <div class="trees">
@@ -39,7 +38,7 @@
             </a>
             <a class="tree" href="/lets/dep">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
-                <h3>science section</h3>
+                <h3>Scientific Section</h3>
             </a>
             {% endif %} {% endif %} {%if page == 'dep' %} {% if user.academic_year == "1" %}
             <a class="tree" href="/category/algebra-1">
@@ -52,7 +51,7 @@
             </a>
             <a class="tree" href="/category/trig-1">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
-                <h3>trig</h3>
+                <h3>trigonometry</h3>
             </a>
             <a class="tree" href="/category/revision-1">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
@@ -82,7 +81,7 @@
             {% endif %} {% if page == 'puer' %}
             <a class="tree" href="/category/Trig-2">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBNVtepKT2YtCg7GODExQYE-kE7UBGS-1lA&usqp=CAU" alt="">
-                <h3>Trig
+                <h3>trigonometry
                 </h3>
             </a>
             <a class="tree" href="/category/Calculus-2">

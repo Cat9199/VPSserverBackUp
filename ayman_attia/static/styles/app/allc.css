@@ -13,7 +13,7 @@
     font-weight: 600;
     color: var(--neutral-9);
     padding: 0px 20px;
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     border-radius: 45px;
     background: var(--Neutral-6, #8D98AF);
     border: none;
@@ -133,6 +133,7 @@
 
 .courses .course .course-info {
     padding: 20px;
+    color: #000;
 }
 
 .courses .course .course-price {
@@ -142,7 +143,7 @@
     align-items: center;
 }
 
-.courses .course .course-price a {
+.courses .course .course-price div {
     border-radius: 26px;
     background: var(--blue-3, #2E6FF4);
     padding: 0px 20px;
@@ -152,7 +153,7 @@
     transition: 0.3s ease-in-out;
 }
 
-.courses .course .course-price a:hover {
+.courses .course .course-price div:hover {
     opacity: 0.8;
 }
 

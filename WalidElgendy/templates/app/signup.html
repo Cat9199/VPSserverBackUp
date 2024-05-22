@@ -4,16 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عمل حساب جديد</title>
+    <title>مسيو وليد الجندي | مسيو وليد الجندي\</title>
+    <meta name="description" content="أوادوف - موقع يقدم المعلومات حول منتجات مسيو وليد الجندي باللغة العربية والإنجليزية مسيو وليد الجندي">
+<!-- Example of structured data for a product -->
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Product",
+      "name": "مسيو وليد الجندي مسيو وليد الجندي",
+      "description": "وصف موجز للمنتج",
+      "brand": {
+        "@type": "Brand",
+        "name": "مسيو وليد الجندي مسيو وليد الجندي"
+      }
+    }
+    </script>
+
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/signup.css')}}">
+    <!-- Hotjar Tracking Code for AhmedMalikAcadmy -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3911607,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
 </head>
 
 <body dir="rtl">
 
     <header>
         <nav>
-            <h3>مسيو وليد الجندي</h3>
+            <h3>مسيو وليد الجندي </h3>
             <img style="width: 40px; height: 40px" src="{{ url_for('static',filename='img/logo.png') }}" />
         </nav>
     </header>
@@ -21,6 +48,7 @@
         <section class="login-section">
 
             <div class="login-container">
+              
                 <h2>عمل حساب جديد</h2>
                 <div class="content" id="screen1">
                     <a href="/logingoogle" class="google-login">
@@ -32,11 +60,18 @@
                     <div class="line">
                         <span>او ادخل لحسابك باستخدام</span>
                     </div>
+             {%if error%}
+             <p id="message" style="color: red; display: block;">{{ error }}</p> 
+             {% if error == 'حدث خطأ ما الرجاء المحاولة مرة اخرى او التواصل مع الدعم الفني' %}
+             <a href="https://wa.me/201101010639?text=Hi,%20I%20am%{{username}}.%20I%20use%20Ahmed%20Malik%20Academy.%20Forgot%20password" target="_blank">تواصل مع الدعم</a>
+             {% endif %}   
+             {% endif %}
+                    <p id="message" style="color: red;"></p> 
                     <div class="form-login">
-                        <input type="text" name="username" id="username" placeholder="اكتب اسمك هنا (مثال) : محمد هاني احمد" />
-                        <input type="email" name="email" id="email" placeholder="اكتب ايميلك هنا: xxxx@gmail.com" />
-                        <input type="password" name="password" id="password1" placeholder="اكتب الباسورد هنا: xxxxxx" />
-                        <input type="password" name="password" id="password2" placeholder="اكتب الباسورد تاني هنا: xxxxxx" />
+                        <input type="text" name="username" id="username" placeholder="اكتب اسمك هنا (مثال) : محمد هاني احمد" required/>
+                        <input type="email" name="email" id="email" placeholder="اكتب ايميلك هنا: xxxx@gmail.com" required/>
+                        <input type="password" name="password" id="password1" placeholder="اكتب الباسورد هنا: xxxxxx" required/>
+                        <input type="password" name="password" id="password2" placeholder="اكتب الباسورد تاني هنا: xxxxxx" required/>
                         <button onclick="sendTwoSecScreen(2)" type="button" class="next">التالي</button>
                     </div>
                     <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
@@ -102,10 +137,9 @@
                 <option value="boy">ذكر</option>
                 <option value="girl">انثي</option>
                 </select>
-                        <label for="dateInput">تاريخ الميلاد</label>
-                        <input type="date" id="dateInput" name="dateInput" placeholder="تاريخ الميلاد" value="2000-01-01">
-                        <input type="text" name="phone" id="phone" placeholder="رقم الهاتف الطالب" />
-                        <input type="text" name="phone-parent" id="phone-parent" placeholder="رقم الهاتف ولي الامر" />
+                        <input type="date" id="dateInput" name="dateInput"  placeholder="تاريخ الميلاد" required>
+                        <input type="text" name="phone" id="phone" placeholder="رقم الهاتف الطالب" required/>
+                        <input type="text" name="phone-parent" id="phone-parent" placeholder="رقم الهاتف ولي الامر" required/>
                         <button class="next">التالي</button>
                     </div>
                     <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
@@ -113,8 +147,8 @@
             </div>
         </section>
     </form>
-    <script>
-        function sendTwoSecScreen(screen) {
+<script>
+    function sendTwoSecScreen(screen) {
             if (screen == 2) {
                 document.getElementById("screen1").style.display = "none";
                 document.getElementById("screen2").style.display = "block";
@@ -163,7 +197,7 @@
             // Add 'selected' class to the clicked button
             button.classList.add('taqasous-button-selected');
         }
-    </script>
+</script>
 </body>
 
 </html>

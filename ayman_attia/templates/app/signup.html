@@ -4,73 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عمل حساب جديد</title>
+    <title>Awadouf | عوضوف</title>
+    <meta name="description" content="أوادوف - موقع يقدم المعلومات حول منتجات عوضوف باللغة العربية والإنجليزية Awadouf">
+<!-- Example of structured data for a product -->
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Product",
+      "name": "Awadouf عوضوف",
+      "description": "وصف موجز للمنتج",
+      "brand": {
+        "@type": "Brand",
+        "name": "Awadouf عوضوف"
+      }
+    }
+    </script>
+
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/app/signup.css')}}">
     <!-- Hotjar Tracking Code for AhmedMalikAcadmy -->
-    <script>
-        (function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:3911607,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
-    <style>
-.form-login .next-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.form-login #prev2,
-.form-login #next2 {
-    flex: 1;
-    padding: 15px 20px;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 700;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.form-login #prev2 {
-    background-color: var(--red-color); /* Background color for the "Previous" button */
-    color: white; /* Text color for the "Previous" button */
-}
-
-.form-login #next2 {
-    background: var(--grid-blue, linear-gradient(282deg, #1031D0 0%, #2E6FF4 50%, #89BAF8 100%)); /* Background color for the "Next" button */
-    color: var(--neutral-9, #EEF4FA); /* Text color for the "Next" button */
-}
-
-.form-login #next2:hover {
-    opacity: 0.8; /* Opacity on hover for the "Next" button */
-}
-
-.form-login #prev2:hover {
-    opacity: 0.8; /* Opacity on hover for the "Previous" button */
-}
-
-    </style>
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3911607,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
 </head>
 
 <body dir="rtl">
 
     <header>
         <nav>
-            <h3>Mr Ayman test</h3>
+            <h3>mr ayman attia </h3>
             <img style="width: 40px; height: 40px" src="{{ url_for('static',filename='img/logo.png') }}" />
         </nav>
     </header>
-    <form id="signupForm" action="/signup" method="post">
+    <form action="/signup" method="post">
         <section class="login-section">
 
             <div class="login-container">
+              
                 <h2>عمل حساب جديد</h2>
                 <div class="content" id="screen1">
                     <a href="/logingoogle" class="google-login">
@@ -82,17 +60,23 @@
                     <div class="line">
                         <span>او ادخل لحسابك باستخدام</span>
                     </div>
-                    <p id="message" style="color: red;"></p>
+             {%if error%}
+             <p id="message" style="color: red; display: block;">{{ error }}</p> 
+             {% if error == 'حدث خطأ ما الرجاء المحاولة مرة اخرى او التواصل مع الدعم الفني' %}
+             <a href="https://wa.me/201101010639?text=Hi,%20I%20am%{{username}}.%20I%20use%20Ahmed%20Malik%20Academy.%20Forgot%20password" target="_blank">تواصل مع الدعم</a>
+             {% endif %}   
+             {% endif %}
+                    <p id="message" style="color: red;"></p> 
                     <div class="form-login">
                         <input type="text" name="username" id="username" placeholder="اكتب اسمك هنا (مثال) : محمد هاني احمد" required/>
                         <input type="email" name="email" id="email" placeholder="اكتب ايميلك هنا: xxxx@gmail.com" required/>
                         <input type="password" name="password" id="password1" placeholder="اكتب الباسورد هنا: xxxxxx" required/>
                         <input type="password" name="password" id="password2" placeholder="اكتب الباسورد تاني هنا: xxxxxx" required/>
-                        <button type="button" id="next1" class="next">التالي</button>
+                        <button onclick="sendTwoSecScreen(2)" type="button" class="next">التالي</button>
                     </div>
                     <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
                 </div>
-                <div class="content" id="screen2" style="display: none;">
+                <div class="content" id="screen2">
                     <div class="line">
                         <span>اختار سنتك الدراسية</span>
                     </div>
@@ -112,162 +96,108 @@
                             <button class="taqasous-button" type="button" value="3sin" onclick="selectTaqasous(this);setval('3sic')">علمي علوم</button>
                             <button class="taqasous-button" type="button" value="3art" onclick="selectTaqasous(this);setval('3art')">أدبي</button>
                         </div>
-                        <div class="form-login next-wrapper">
-                            <button type="button" id="prev2" class="next" onclick="goToPreviousScreen(2)">السابق</button>
-                            <button type="button" id="next2" class="next">التالي</button>
-                        </div>
-                        
-                        
+                        <button onclick="sendTwoSecScreen(3)" type="button" class="next">التالي</button>
 
                     </div>
                     <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
                 </div>
-                <div class="content" id="screen3" style="display: none;">
+                <div class="content" id="screen3">
                     <div class="form-login">
-                        <select name="city" id="city" required>
-                            <option value="1">القاهرة</option>
-                            <!-- Add other options here -->
+                        <select name="city" id="city">
+                        <option value="1">القاهرة</option>
+                        <option value="2">الجيزة</option>
+                        <option value="3">الاسكندرية</option>
+                        <option value="4">الدقهلية</option>
+                        <option value="5">البحر الاحمر</option>
+                        <option value="6">البحيرة</option>
+                        <option value="7">الفيوم</option>
+                        <option value="8">الغربية</option>
+                        <option value="9">الاسماعيلية</option>
+                        <option value="10">المنوفية</option>
+                        <option value="11">المنيا</option>
+                        <option value="12">القليوبية</option>
+                        <option value="13">الوادي الجديد</option>
+                        <option value="14">السويس</option>
+                        <option value="15">اسوان</option>
+                        <option value="16">اسيوط</option>
+                        <option value="17">بني سويف</option>
+                        <option value="18">بورسعيد</option>
+                        <option value="19">دمياط</option>
+                        <option value="20">الشرقية</option>
+                        <option value="21">جنوب سيناء</option>
+                        <option value="22">كفر الشيخ</option>
+                        <option value="23">مطروح</option>
+                        <option value="24">الاقصر</option>
+                        <option value="25">قنا</option>
+                        <option value="26">شمال سيناء</option>
+                        <option value="27">سوهاج</option>
+                    </select>
                         </select>
-                        <select name="gender" id="gender" required>
-                            <option value="boy">ذكر</option>
-                            <option value="girl">انثى</option>
-                        </select>
-                        <input type="date" id="dateInput" name="dateInput" placeholder="تاريخ الميلاد" required>
+                        <select name="gender" id="city">
+                <option value="boy">ذكر</option>
+                <option value="girl">انثي</option>
+                </select>
+                        <input type="date" id="dateInput" name="dateInput"  placeholder="تاريخ الميلاد" required>
                         <input type="text" name="phone" id="phone" placeholder="رقم الهاتف الطالب" required/>
                         <input type="text" name="phone-parent" id="phone-parent" placeholder="رقم الهاتف ولي الامر" required/>
-                        <button type="submit" class="next">التالي</button>
+                        <button class="next">التالي</button>
                     </div>
                     <a href="/login">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
                 </div>
             </div>
         </section>
     </form>
-    <script>
-         function goToPreviousScreen(screen) {
-            var currentScreen = document.getElementById("screen" + screen);
-            currentScreen.style.display = "none";
-            var previousScreen = document.getElementById("screen" + (screen - 1));
-            previousScreen.style.display = "block";
-        }
-        function selectElsana(button, elsana) {
-            var buttons = document.querySelectorAll('.elsana-button');
-            buttons.forEach(function(btn) {
-                btn.classList.remove('elsana-button-selected');
-            });
-            button.classList.add('elsana-button-selected');
-            var taqasous2 = document.getElementById("taqasous-2");
-            var taqasous3 = document.getElementById("taqasous-3");
-            if (elsana == 2) {
-                taqasous2.style.display = "flex";
-                taqasous3.style.display = "none";
-            } else if (elsana == 3) {
-                taqasous2.style.display = "none";
-                taqasous3.style.display = "flex";
-            } else {
-                taqasous2.style.display = "none";
-                taqasous3.style.display = "none";
-            }
-        }
-
-        function selectTaqasous(button, taqasous) {
-            var buttons = document.querySelectorAll('.taqasous-button');
-            buttons.forEach(function(btn) {
-                btn.classList.remove('taqasous-button-selected');
-            });
-            button.classList.add('taqasous-button-selected');
-        }
-
-        document.getElementById("next1").addEventListener("click", function() {
-            if (validateForm(1)) {
+<script>
+    function sendTwoSecScreen(screen) {
+            if (screen == 2) {
                 document.getElementById("screen1").style.display = "none";
                 document.getElementById("screen2").style.display = "block";
                 document.getElementById("screen3").style.display = "none";
             }
-        });
-
-        document.getElementById("next2").addEventListener("click", function() {
-            if (validateForm(2)) {
+            if (screen == 3) {
                 document.getElementById("screen1").style.display = "none";
                 document.getElementById("screen2").style.display = "none";
                 document.getElementById("screen3").style.display = "block";
             }
-        });
-
-        document.getElementById("signupForm").addEventListener("submit", function(event) {
-            if (!validateForm(3)) {
-                event.preventDefault();
-            }
-        });
-
-        function validateForm(screen) {
-            var isValid = true;
-
-            if (screen === 1) {
-                var username = document.getElementById("username").value.trim();
-                var email = document.getElementById("email").value.trim();
-                var password1 = document.getElementById("password1").value.trim();
-                var password2 = document.getElementById("password2").value.trim();
-
-                if (username === "") {
-                    showError("الرجاء إدخال اسم المستخدم", "username");
-                    isValid = false;
-                }
-
-                if (email === "") {
-                    showError("الرجاء إدخال البريد الإلكتروني", "email");
-                    isValid = false;
-                }
-
-                if (password1 === "") {
-                    showError("الرجاء إدخال كلمة المرور", "password1");
-                    isValid = false;
-                }
-
-                if (password2 === "") {
-                    showError("الرجاء تأكيد كلمة المرور", "password2");
-                    isValid = false;
-                }
-
-                if (password1 !== password2) {
-                    showError("كلمات المرور غير متطابقة", "password1");
-                    isValid = false;
-                }
-            } else if (screen === 2) {
-                // Add validation for screen 2 if needed
-            } else if (screen === 3) {
-                var city = document.getElementById("city").value.trim();
-                var gender = document.getElementById("gender").value.trim();
-                var dateInput = document.getElementById("dateInput").value.trim();
-
-                if (city === "") {
-                    showError("الرجاء اختيار المدينة", "city");
-                    isValid = false;
-                }
-
-                if (gender === "") {
-                    showError("الرجاء اختيار الجنس", "gender");
-                    isValid = false;
-                }
-
-                if (dateInput === "") {
-                    showError("الرجاء اختيار تاريخ الميلاد", "dateInput");
-                    isValid = false;
-                }
-            }
-
-            return isValid;
         }
 
-        function showError(message, fieldId) {
-            var messageElement = document.getElementById("message");
-            messageElement.innerText = message;
-            messageElement.style.display = "block";
-            if (fieldId) {
-                document.getElementById(fieldId).focus();
-                document.getElementById(fieldId).style.border = "2px solid #E62836";
+        function setval(valin) {
+            document.getElementById('section').value = valin;
+        }
+
+        function selectElsana(button, elsana) {
+            // Remove 'selected' class from all buttons
+            var buttons = document.querySelectorAll('.elsana-button');
+            buttons.forEach(function(btn) {
+                btn.classList.remove('elsana-button-selected');
+            });
+
+            // Add 'selected' class to the clicked button
+            button.classList.add('elsana-button-selected');
+
+            if (elsana == "2") {
+                document.getElementById("taqasous-2").style.display = "flex";
+                document.getElementById("taqasous-3").style.display = "none";
+            } else if (elsana == "3") {
+                document.getElementById("taqasous-2").style.display = "none";
+                document.getElementById("taqasous-3").style.display = "flex";
+            } else {
+                document.getElementById("taqasous-2").style.display = "none";
+                document.getElementById("taqasous-3").style.display = "none";
             }
         }
-    </script>
+
+        function selectTaqasous(button, taqasous) {
+            // Remove 'selected' class from all buttons
+            var buttons = document.querySelectorAll('.taqasous-button');
+            buttons.forEach(function(btn) {
+                btn.classList.remove('taqasous-button-selected');
+            });
+
+            // Add 'selected' class to the clicked button
+            button.classList.add('taqasous-button-selected');
+        }
+</script>
 </body>
 
 </html>

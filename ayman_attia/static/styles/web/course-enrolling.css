@@ -81,7 +81,7 @@ main .sidebar {
     align-items: center;
     box-shadow: 0px 4px 6px 0px rgba(37, 114, 230, 0.20);
     color: var(--Neutral-3, #262F44);
-    font-family: Noto Sans Arabic;
+    font-family: "Roboto", sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;

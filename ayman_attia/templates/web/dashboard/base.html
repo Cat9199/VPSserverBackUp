@@ -7,6 +7,8 @@
     <title>الرئيسية</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/web/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/web/dashboard.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icons/favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body dir="rtl">
@@ -26,12 +28,12 @@
                         <img style="width: 40px; height: 40px" src="{{ url_for('static',filename='img/user.png') }}" /> {% endif %}
                     </div>
                     <div class="username">
-                        <h5 class="welcome">مساء الخير</h5>
+                        <h5 class="welcome">Hi</h5>
                         <h5 class="name">{{ user.name }}</h5>
                     </div>
                 </div>
                 <div class="user-info">
-                    <button class="wallet" onclick="showWallet()">
+                    <!-- <button class="wallet" onclick="showWallet()">
                         <img src="{{ url_for('static',filename='/img/icons/solar_wallet-linear.svg')}}" />
                         <h5>
 
@@ -64,7 +66,7 @@
                                 </button>
                         </div>
                         <button class="check">تحقق من الكود</button>
-                    </div>
+                    </div> -->
                     <a class="notification" href="/notification">
                         <img src="{{ url_for('static',filename='/img/icons/ph_bell-bold.svg')}}" />
                         <h5 id="notificationCount">0 </h5>
@@ -77,30 +79,30 @@
             <div class="top">
                 <a class="sidebar-item selected" href="/dashboard">
                     <img src="{{ url_for('static',filename='/img/icons/iconamoon_home.svg')}}" />
-                    <h5>الرئيسية</h5>
+                    <h5>Home</h5>
                 </a>
                 <a class="sidebar-item" href="/all-courses">
                     <img src="{{ url_for('static',filename='/img/icons/lets-icons_video.svg')}}" />
-                    <h5>كورساتي</h5>
+                    <h5>My Courses</h5>
                 </a>
 
             </div>
             <div class="bottom">
                 <a class="sidebar-item" href="/help">
                     <img src="{{ url_for('static',filename='/img/icons/bx_support.svg')}}" />
-                    <h5>مساعدة</h5>
+                    <h5>Support</h5>
                 </a>
                 <a class="sidebar-item" href="/settings">
                     <img src="{{ url_for('static',filename='/img/icons/carbon_settings.svg')}}" />
-                    <h5>الاعدادات</h5>
+                    <h5>Settings</h5>
                 </a>
                 <a class="sidebar-item" href="/priveci-police">
                     <img src="{{ url_for('static',filename='/img/icons/iconoir_privacy-policy.svg')}}" />
-                    <h5>الخصوصية والامان</h5>
+                    <h5>privacy policy</h5>
                 </a>
                 <a class="sidebar-item" href="/logout">
                     <img src="{{ url_for('static',filename='/img/icons/ci_exit.svg')}}" />
-                    <h5>خروج</h5>
+                    <h5>Exit</h5>
                 </a>
             </div>
         </div>
@@ -266,5 +268,20 @@
 
     }
 </script>
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "k8dqtpqe",
+      name: "{{ user.name }}", // Full name
+      user_id: "{{ user.id }}", // a UUID for your user
+      email: "{{ user.email }}", 
+
+      created_at: "{{created_at }}" // Signup date as a Unix timestamp
+    };
+  </script>
+  <script>
+  // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/k8dqtpqe'
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/k8dqtpqe';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+  </script>
 
 </html>
