@@ -35,3 +35,10 @@ To https://github.com/Cat9199/VPSserverBackUp.git
    f894d6f..d40716f  main -> main
 Script executed at 2024-05-22 08:22:03
 Script executed at 2024-06-12 13:03:05
+remote: 
+remote: GitHub found 36 vulnerabilities on Cat9199/VPSserverBackUp's default branch (12 high, 24 moderate). To find out more, visit:        
+remote:      https://github.com/Cat9199/VPSserverBackUp/security/dependabot        
+remote: 
+To https://github.com/Cat9199/VPSserverBackUp.git
+   6500bb8..acd6794  main -> main
+Script executed at 2024-06-12 13:06:41
