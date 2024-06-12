@@ -9,6 +9,7 @@ from flask import Flask, redirect, url_for, jsonify , session, request, render_t
 from datetime import datetime as dt, date , timedelta
 from models.fpass import send_reset_password_email
 from honeybadger.contrib import FlaskHoneybadger
+from discord_webhook import DiscordWebhook
 from google.auth.transport import requests
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -23,7 +24,14 @@ import base64
 import json
 import os
 import io
+import threading
+
+
+
+
+
 # ========================== Config ==========================
+DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1250423030379708457/d9OtG4-HJPmwip4IEo9RMpmZZHETXeyv6k8ABHlgqG3ZvD_m1yn-jOnlMZpqoYC7b3U2'
 global APP_URL
 APP_URL = 'https://scholarsync.e3lanotopia.software/'
 app = Flask(__name__)
@@ -44,6 +52,7 @@ app.config['HONEYBADGER_ENVIRONMENT'] = 'production'
 app.config['HONEYBADGER_API_KEY'] = 'hbp_EltCzriNYjWnlq88VlxGmmFESmeUx80s2A4B'
 app.config['HONEYBADGER_PARAMS_FILTERS'] = 'password, secret, credit-card'
 FlaskHoneybadger(app, report_exceptions=True)
+
 CORS(app, resources={r"/*": {"origins": "*"}})
 # ========================== Models ==========================
 class Users(db.Model):
@@ -334,7 +343,12 @@ def IsEnrolled(course_id):
             return True
         else:
             return False
-
+def send_discord_notification(remote_addr,username,userphone,useremail):
+    webhook = DiscordWebhook(url=DISCORD_WEBHOOK_URL, content=f"Someone has connected to the Flask app from IP: {remote_addr} \n User Name: {username} \n User Phone: {userphone} \n User Email: {useremail}")
+    print(f"Sending notification to Discord for IP: {remote_addr}")
+    response = webhook.execute()
+    if response.status_code != 204:
+        print(f"Failed to send notification: {response.status_code}, {response.text}")
 
 def addLogin(user):
     user_agent_string = request.headers.get('User-Agent')
@@ -377,6 +391,29 @@ def addLesson(name,course_id,iframeCode,Ltype):
     db.session.add(newLesson)
     db.session.commit()
 
+
+@app.before_request
+def before_request():
+        session.permanent = False  
+        session.modified = True 
+        app.permanent_session_lifetime = timedelta(minutes=30)  
+        remote_addr = request.remote_addr
+        # if user in seesion user = user  else user will be = gest and add it to notifaction
+        if session.get('user'):
+            user = session.get('user')
+            userinfo = Users.query.filter_by(email=user).first()
+            username = userinfo.name
+            userphone = userinfo.phone_number
+            useremail = userinfo.email
+        else:
+            user = 'gest'
+            username = 'gest'
+            userphone = 'gest'
+            useremail = 'gest'
+            if not session.get('notified'):
+                session['notified'] = True
+                thread = threading.Thread(target=send_discord_notification, args=(remote_addr,username,userphone,useremail))
+                thread.start()
 @app.route('/logingoogle')
 def logingoogle():
     return redirect(generate_google_auth_url())
@@ -908,22 +945,6 @@ def playvideo(id):
         userPlayTimes = playTimes.query.filter_by(user=user.email,lesson=id).first()
         all_lessons = Lesson.query.filter_by(course_id=lesson.course_id).all()
         enroll = Enroll.query.filter_by(user=user.email,course=lesson.course_id).first()
-        if userPlayTimes:
-            if userPlayTimes.play_count >=100 :
-                if session['is_mobile']:
-                    return render_template('app/dashboard/playvideo.html',user=user,lesson=lesson,course=all_lessons,next_lesson=next_lesson,back_lesson=back_lesson,error='لقد تجاوزت الحد الاقصي لعدد المرات')
-                else:
-                    return render_template('web/dashboard/playvideo.html',user=user,lesson=lesson,course=all_lessons,next_lesson=next_lesson,back_lesson=back_lesson,error='لقد تجاوزت الحد الاقصي لعدد المرات')
-            userPlayTimes.play_count += 1
-            db.session.commit()
-        else:
-            newPlayTimes = playTimes(
-                user=user.email,
-                lesson=id,
-                play_count=1
-            )
-            db.session.add(newPlayTimes)
-            db.session.commit()
         if lesson.Ltype == 'section':
             next_lesson = Lesson.query.filter_by(course_id=lesson.course_id).filter(Lesson.id > lesson.id).first()
             return redirect(f'/playvideo/{next_lesson.id}')
